@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth:admin'], 'prefix' => 'employee', 'as' => 'e
     Route::post('/store',[EmployeeController::class,'store'])->name('store'); 
 });
 
+
 Route::get('login',[AuthController::class,'login'])->name('login');
 Route::post('login',[AuthController::class,'loginAttempt'])->name('login.attempt');
 Route::get('logout',[AuthController::class,'logout'])->name('logout');
