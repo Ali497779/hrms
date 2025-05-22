@@ -27,21 +27,27 @@ class AuthController extends Controller
             return back()->with('error', 'Invalid email or password.');
         }
 
+        
         // Determine role and login with appropriate guard
         if ($user->is_admin) {
             Auth::guard('admin')->login($user);
+            session(['guard' => 'admin']); // <<< track it
             return redirect()->route('admin.dashboard');
         } elseif ($user->is_customer) {
             Auth::guard('customer')->login($user);
+            session(['guard' => 'customer']);
             return redirect()->route('customer.dashboard');
         } elseif ($user->is_sales) {
             Auth::guard('sales')->login($user);
+            session(['guard' => 'sales']);
             return redirect()->route('sales.dashboard');
         } elseif ($user->is_projectmanager) {
             Auth::guard('projectmanager')->login($user);
+            session(['guard' => 'projectmanager']);
             return redirect()->route('pm.dashboard');
         } elseif ($user->is_developer) {
             Auth::guard('developer')->login($user);
+            session(['guard' => 'developer']);
             return redirect()->route('developer.dashboard');
         }
 

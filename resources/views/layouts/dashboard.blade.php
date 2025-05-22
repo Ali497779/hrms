@@ -320,126 +320,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dropdown nxl-h-item nxl-header-language d-none d-sm-flex">
-                        <a href="javascript:void(0);" class="nxl-head-link me-0 nxl-language-link"
-                            data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                            <img src="{{asset('assets/vendors/img/flags/4x3/us.svg')}}" alt="" class="img-fluid wd-20" />
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-language-dropdown">
-                            <div class="dropdown-divider mt-0"></div>
-                            <div class="language-items-wrapper">
-                                <div class="select-language px-4 py-2 hstack justify-content-between gap-4">
-                                    <div class="lh-lg">
-                                        <h6 class="mb-0">Select Language</h6>
-                                        <p class="fs-11 text-muted mb-0">12 languages avaiable!</p>
-                                    </div>
-                                    <a href="javascript:void(0);" class="avatar-text avatar-md" data-bs-toggle="tooltip"
-                                        title="Add Language">
-                                        <i class="feather-plus"></i>
-                                    </a>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="row px-4 pt-3">
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/sa.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Arabic</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/bd.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Bengali</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/ch.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Chinese</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/nl.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Dutch</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select active">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/us.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>English</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/fr.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>French</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/de.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>German</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/in.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Hindi</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/ru.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Russian</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/es.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Spanish</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/tr.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Turkish</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-4 col-6 language_select">
-                                        <a href="javascript:void(0);" class="d-flex align-items-center gap-2">
-                                            <div class="avatar-image avatar-sm"><img
-                                                    src="{{asset('assets/vendors/img/flags/1x1/pk.svg')}}" alt=""
-                                                    class="img-fluid" /></div>
-                                            <span>Urdo</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="nxl-h-item d-none d-sm-flex">
                         <div class="full-screen-switcher">
                             <a href="javascript:void(0);" class="nxl-head-link me-0"
@@ -576,13 +456,12 @@
                                     <img src="{{asset('assets/images/avatar/1.png')}}" alt="user-image"
                                         class="img-fluid user-avtar" />
                                     <div>
-                                        <h6 class="text-dark mb-0">Alexandra Della <span
-                                                class="badge bg-soft-success text-success ms-1">PRO</span></h6>
-                                        <span class="fs-12 fw-medium text-muted">alex.della@outlook.com</span>
+                                        <h6 class="text-dark mb-0">{{ Auth::user()->name }}</h6>
+                                        <span class="fs-12 fw-medium text-muted">{{ Auth::user()->email }}</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="dropdown">
+                            <!-- <div class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="dropdown">
                                     <span class="hstack">
                                         <i
@@ -636,73 +515,8 @@
                                         </span>
                                     </a>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="dropdown-divider"></div>
-                            <div class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="dropdown">
-                                    <span class="hstack">
-                                        <i class="feather-dollar-sign me-2"></i>
-                                        <span>Subscriptions</span>
-                                    </span>
-                                    <i class="feather-chevron-right ms-auto me-0"></i>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <span class="hstack">
-                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                                            <span>Plan</span>
-                                        </span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <span class="hstack">
-                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                                            <span>Billings</span>
-                                        </span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <span class="hstack">
-                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                                            <span>Referrals</span>
-                                        </span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <span class="hstack">
-                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                                            <span>Payments</span>
-                                        </span>
-                                    </a>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <span class="hstack">
-                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                                            <span>Statements</span>
-                                        </span>
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="javascript:void(0);" class="dropdown-item">
-                                        <span class="hstack">
-                                            <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                                            <span>Subscriptions</span>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <i class="feather-user"></i>
-                                <span>Profile Details</span>
-                            </a>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <i class="feather-activity"></i>
-                                <span>Activity Feed</span>
-                            </a>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <i class="feather-dollar-sign"></i>
-                                <span>Billing Details</span>
-                            </a>
-                            <a href="javascript:void(0);" class="dropdown-item">
-                                <i class="feather-bell"></i>
-                                <span>Notifications</span>
-                            </a>
                             <a href="javascript:void(0);" class="dropdown-item">
                                 <i class="feather-settings"></i>
                                 <span>Account Settings</span>
@@ -752,13 +566,27 @@
                                 class="feather-chevron-right"></i></span>
                     </a>
                     <ul class="nxl-submenu">
+                        @php
+                            $currentGuard = session('guard'); // this was set at login
+                            $admin = $currentGuard === 'admin';
+                            $developer = $currentGuard === 'developer';
+                            $sales = $currentGuard === 'sales';
+                            $projectmanager = $currentGuard === 'projectmanager';
+                            
+                        @endphp
+
+                        @if($sales || $admin)
                         <li class="nxl-item"><a class="nxl-link" href="reports-sale.php">Sales Report</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="reports-leads.php">Leads Report</a></li>
+                        @endif
+                        @if($admin || $developer || $projectmanager)
                         <li class="nxl-item"><a class="nxl-link" href="reports-project.php">Project Report</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="reports-timesheets.php">Timesheets Report</a>
+                        @endif
                         </li>
                     </ul>
                 </li>
+                @if($admin)
                 <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-users"></i></span>
@@ -770,6 +598,8 @@
                         <li class="nxl-item"><a class="nxl-link" href="{{route('employee.create')}}">Employee Create</a></li>
                     </ul>
                 </li>
+                @endif
+                @if($admin || $developer || $projectmanager)
                 <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-briefcase"></i></span>
@@ -782,6 +612,7 @@
                         <li class="nxl-item"><a class="nxl-link" href="projects-create.php">Projects Create</a></li>
                     </ul>
                 </li>
+                @endif
             </ul>
             <div class="card text-center">
                 <div class="card-body">

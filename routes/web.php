@@ -7,18 +7,36 @@ use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
+
+// Root route
+Route::get('/', function () {
+    return redirect()->route('admin.dashboard'); // Or login view
+})->middleware('auth');
+
+// Admin routes
 Route::group(['middleware' => ['auth:admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/',[AdminController::class,'dashboard'])->name('dashboard');
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
+// Developer routes
 Route::group(['middleware' => ['auth:developer'], 'prefix' => 'developer', 'as' => 'developer.'], function () {
-    Route::get('/',[AdminController::class,'dashboard'])->name('dashboard');
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
+// Developer routes
+Route::group(['middleware' => ['auth:sales'], 'prefix' => 'sales', 'as' => 'sales.'], function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+});
+
+// Employee routes (protected by admin auth)
 Route::group(['middleware' => ['auth:admin'], 'prefix' => 'employee', 'as' => 'employee.'], function () {
-    Route::get('/',[EmployeeController::class,'index'])->name('list'); 
-    Route::get('/create',[EmployeeController::class,'create'])->name('create'); 
-    Route::post('/store',[EmployeeController::class,'store'])->name('store'); 
+    Route::get('/', [EmployeeController::class, 'index'])->name('list'); 
+    Route::get('/create', [EmployeeController::class, 'create'])->name('create'); 
+    Route::post('/store', [EmployeeController::class, 'store'])->name('store'); 
+    Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('edit'); 
+    Route::put('/update/{id}', [EmployeeController::class, 'update'])->name('update');
+    Route::get('/view/{id}', [EmployeeController::class, 'detail'])->name('view'); 
+    Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('delete'); 
 });
 
 

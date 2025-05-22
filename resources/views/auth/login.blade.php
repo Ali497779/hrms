@@ -21,10 +21,10 @@
                             @csrf
                             <div class="mb-4">
                                 <input type="email" class="form-control" placeholder="Email or Username"
-                                    value="admin@straxum.com" name="email" required>
+                                     name="email" required>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Password" name="password" value="123456789"
+                                <input type="password" class="form-control" placeholder="Password" name="password"
                                     required>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
