@@ -457,7 +457,37 @@
                                         class="img-fluid user-avtar" />
                                     <div>
                                         <h6 class="text-dark mb-0">{{ Auth::user()->name }}</h6>
-                                        <span class="fs-12 fw-medium text-muted">{{ Auth::user()->email }}</span>
+                                        <span class="fs-12 fw-medium text-muted">{{ Auth::user()->email }}</span><br>
+                                        <span class="fs-12 fw-medium text-muted">
+                                        <?php
+                                            $is_sales = true;
+                                            $is_developer = false;
+                                            $is_admin = false;
+                                            $is_customer = false;
+
+                                            switch (true) {
+                                                case $is_sales:
+                                                    echo 'Sales';
+                                                    break;
+
+                                                case $is_developer:
+                                                    echo 'Developer';
+                                                    break;
+
+                                                case $is_admin:
+                                                    echo 'Admin';
+                                                    break;
+
+                                                case $is_customer:
+                                                    echo 'Customer';
+                                                    break;
+
+                                                default:
+                                                    echo 'Unknown';
+                                                    break;
+                                            }
+                                        ?>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -572,7 +602,6 @@
                             $developer = $currentGuard === 'developer';
                             $sales = $currentGuard === 'sales';
                             $projectmanager = $currentGuard === 'projectmanager';
-                            
                         @endphp
 
                         @if($sales || $admin)
@@ -596,6 +625,19 @@
                     <ul class="nxl-submenu">
                         <li class="nxl-item"><a class="nxl-link" href="{{route('employee.list')}}">Employee List</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="{{route('employee.create')}}">Employee Create</a></li>
+                    </ul>
+                </li>
+                @endif
+                @if($admin || $sales)
+                <li class="nxl-item nxl-hasmenu">
+                    <a href="javascript:void(0);" class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-users"></i></span>
+                        <span class="nxl-mtext">Customer</span><span class="nxl-arrow"><i
+                                class="feather-chevron-right"></i></span>
+                    </a>
+                    <ul class="nxl-submenu">
+                        <li class="nxl-item"><a class="nxl-link" href="{{route('customer.list')}}">Customer List</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{route('customer.create')}}">Customer Create</a></li>
                     </ul>
                 </li>
                 @endif

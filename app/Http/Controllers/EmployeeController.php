@@ -49,7 +49,7 @@ class EmployeeController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'is_developer' => true,
+                $request->designation => true,
             ]);
 
             // Step 3: Handle avatar upload to public/assets/images/employee/
@@ -114,13 +114,12 @@ class EmployeeController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         try {
-            // Find employee and related user
             $employee = Employee::findOrFail($id);
             $user = User::findOrFail($employee->user_id);
             
-            // dd($request->all());
-            // Validate request
+            
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => [
@@ -134,20 +133,24 @@ class EmployeeController extends Controller
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string|max:20',
                 'date_of_birth' => 'nullable',
-                'password' => 'nullable|string|min:6|confirmed', // password confirmation validation
+                'password' => 'nullable|string|min:6|confirmed',
             ]);
+
             
             // Update user data
             $user->name = $request->name;
             $user->email = $request->email;
             if ($request->filled('password')) {
-                $user->password = Hash::make($request->password);
+                $password = Hash::make($request->password);
             }
-            $user->save();
+            User::where('id', $employee->user_id)->update([
+                'name' => $request->name,
+                'email'=> $request->email,
+                'password' => $request->password ?? $user->password,
+                $request->designation => true
+            ]);
 
-            // Handle avatar upload
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                // Delete old avatar if exists
                 if ($employee->avatar && file_exists(public_path('assets/images/employee/' . $employee->avatar))) {
                     unlink(public_path('assets/images/employee/' . $employee->avatar));
                 }
@@ -158,7 +161,6 @@ class EmployeeController extends Controller
                 $employee->avatar = $avatarName;
             }
 
-            // Update designation mapping
             $designationMap = [
                 'is_sales' => 'Sales',
                 'is_developer' => 'Developer',
@@ -167,7 +169,6 @@ class EmployeeController extends Controller
 
             $employee->designation = $designationMap[$request->designation] ?? $request->designation;
 
-            // Update other fields if needed, e.g. phone, etc.
             $employee->phone = $request->phone ?? $employee->phone;
             $employee->date_of_birth = $request->date_of_birth ?? $employee->date_of_birth;
 

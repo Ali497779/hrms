@@ -132,9 +132,9 @@
                                                     <div class="input-group-text"><i class="feather-briefcase"></i></div>
                                                     <select class="form-select" id="designationInput" name="designation" required>
                                                         <option disabled>Select Designation</option>
-                                                        <option value="Sales" {{ old('designation', $employee->designation) == 'Sales' ? 'selected' : '' }}>Sales</option>
-                                                        <option value="Developer" {{ old('designation', $employee->designation) == 'Developer' ? 'selected' : '' }}>Developer</option>
-                                                        <option value="Project Manager" {{ old('designation', $employee->designation) == 'Project Manager' ? 'selected' : '' }}>Project Manager</option>
+                                                        <option value="is_sales" {{ old('designation', $employee->designation) == 'Sales' ? 'selected' : '' }}>Sales</option>
+                                                        <option value="is_developer" {{ old('designation', $employee->designation) == 'Developer' ? 'selected' : '' }}>Developer</option>
+                                                        <option value=is_projectmanager" {{ old('designation', $employee->designation) == 'Project Manager' ? 'selected' : '' }}>Project Manager</option>
                                                     </select>
                                                 </div>
                                             </div>

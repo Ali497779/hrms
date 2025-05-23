@@ -25,7 +25,7 @@ return new class extends Migration
         $table->string('vat')->nullable();
         $table->text('address')->nullable();
         $table->text('about')->nullable();
-        $table->date('date_of_birth')->nullable();
+        $table->text('date_of_birth')->nullable();
         $table->string('country')->nullable();
         $table->string('state')->nullable();
         $table->string('city')->nullable();

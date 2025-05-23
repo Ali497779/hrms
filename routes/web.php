@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 
 
 // Root route
@@ -37,6 +38,16 @@ Route::group(['middleware' => ['auth:admin'], 'prefix' => 'employee', 'as' => 'e
     Route::put('/update/{id}', [EmployeeController::class, 'update'])->name('update');
     Route::get('/view/{id}', [EmployeeController::class, 'detail'])->name('view'); 
     Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('delete'); 
+});
+
+Route::group(['middleware' => ['auth:sales'], 'prefix' => 'customer', 'as' => 'customer.'], function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('list'); 
+    Route::get('/create', [CustomerController::class, 'create'])->name('create'); 
+    Route::post('/store', [CustomerController::class, 'store'])->name('store'); 
+    Route::get('/edit/{id}', [CustomerController::class, 'edit'])->name('edit'); 
+    Route::put('/update/{id}', [CustomerController::class, 'update'])->name('update');
+    Route::get('/view/{id}', [CustomerController::class, 'detail'])->name('view'); 
+    Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('delete'); 
 });
 
 
