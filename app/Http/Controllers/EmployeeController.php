@@ -35,7 +35,7 @@ class EmployeeController extends Controller
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
                 'avatar' => 'nullable|image',
-                'designation' => 'required|string|max:50',
+                'designation' => 'required|string',
                 'address' => 'nullable',
                 'phone' => 'nullable',
                 'date_of_birth' => 'nullable',

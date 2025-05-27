@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -15,7 +16,7 @@ Route::get('/', function () {
 })->middleware('auth');
 
 // Admin routes
-Route::group(['middleware' => ['auth:admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
@@ -30,7 +31,7 @@ Route::group(['middleware' => ['auth:sales'], 'prefix' => 'sales', 'as' => 'sale
 });
 
 // Employee routes (protected by admin auth)
-Route::group(['middleware' => ['auth:admin'], 'prefix' => 'employee', 'as' => 'employee.'], function () {
+Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'employee', 'as' => 'employee.'], function () {
     Route::get('/', [EmployeeController::class, 'index'])->name('list'); 
     Route::get('/create', [EmployeeController::class, 'create'])->name('create'); 
     Route::post('/store', [EmployeeController::class, 'store'])->name('store'); 
@@ -40,7 +41,7 @@ Route::group(['middleware' => ['auth:admin'], 'prefix' => 'employee', 'as' => 'e
     Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('delete'); 
 });
 
-Route::group(['middleware' => ['auth:sales'], 'prefix' => 'customer', 'as' => 'customer.'], function () {
+Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'customer', 'as' => 'customer.'], function () {
     Route::get('/', [CustomerController::class, 'index'])->name('list'); 
     Route::get('/create', [CustomerController::class, 'create'])->name('create'); 
     Route::post('/store', [CustomerController::class, 'store'])->name('store'); 
@@ -49,6 +50,17 @@ Route::group(['middleware' => ['auth:sales'], 'prefix' => 'customer', 'as' => 'c
     Route::get('/view/{id}', [CustomerController::class, 'detail'])->name('view'); 
     Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('delete'); 
 });
+
+Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'project', 'as' => 'project.'], function () {
+    Route::get('/', [ProjectController::class, 'index'])->name('list'); 
+    Route::get('/create', [ProjectController::class, 'create'])->name('create'); 
+    Route::post('/store', [ProjectController::class, 'store'])->name('store'); 
+    Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('edit'); 
+    Route::put('/update/{id}', [ProjectController::class, 'update'])->name('update');
+    Route::get('/view/{id}', [ProjectController::class, 'detail'])->name('view'); 
+    Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('delete'); 
+});
+
 
 
 Route::get('login',[AuthController::class,'login'])->name('login');

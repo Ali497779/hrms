@@ -20,7 +20,7 @@ return new class extends Migration
         $table->string('username')->nullable();
         $table->string('phone')->nullable();
         $table->string('company')->nullable();
-        $table->enum('designation', ['sales', 'developer', 'projectmanager'])->nullable();
+        $table->string('designation')->nullable();
         $table->string('website')->nullable();
         $table->string('vat')->nullable();
         $table->text('address')->nullable();
