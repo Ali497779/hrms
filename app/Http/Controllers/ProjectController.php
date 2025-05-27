@@ -26,11 +26,15 @@ class ProjectController extends Controller
         return view("project.list", compact("projects"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function updateStatus(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+        $project->status = $request->status;
+        $project->save();
+
+        return response()->json(['message' => 'Project status updated successfully']);
+    }
+
     public function create()
     {
         $customers = Customer::with('user')->get();
@@ -126,9 +130,10 @@ class ProjectController extends Controller
     }
 
     
-    public function show(Project $project)
+    public function show($id)
     {
-        //
+        $project = Project::where('id', $id)->with('members.employee.user')->first();
+        return view('project.detail', compact('project'));
     }
 
     /**

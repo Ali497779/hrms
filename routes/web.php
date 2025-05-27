@@ -57,8 +57,9 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'project', 'as' 
     Route::post('/store', [ProjectController::class, 'store'])->name('store'); 
     Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('edit'); 
     Route::put('/update/{id}', [ProjectController::class, 'update'])->name('update');
-    Route::get('/view/{id}', [ProjectController::class, 'detail'])->name('view'); 
+    Route::get('/view/{id}', [ProjectController::class, 'show'])->name('view'); 
     Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('delete'); 
+    Route::post('/update-status/{id}', [ProjectController::class, 'updateStatus']);
 });
 
 

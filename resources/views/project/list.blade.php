@@ -68,7 +68,7 @@
                                                             <img src="assets/images/brand/app-store.png" alt="" class="img-fluid">
                                                         </div>
                                                         <div>
-                                                            <a href="projects-view.html" class="text-truncate-1-line">{{ $project->title }}</a>
+                                                            <a href="{{ route('project.view', $project->id) }}" class="text-truncate-1-line">{{ $project->title }}</a>
                                                             <p class="fs-12 text-muted mt-2 text-truncate-1-line project-list-desc">{{ \Illuminate\Support\Str::limit($project->description, 69, '') }}</p>
                                                             <div class="project-list-action fs-12 d-flex align-items-center gap-3 mt-2">
                                                                 <a href="javascript:void(0);">Start</a>
@@ -81,7 +81,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a href="projects-view.html" class="hstack gap-3">
+                                                    <a href="{{ route('project.view', $project->id) }}" class="hstack gap-3">
                                                         <div class="avatar-image avatar-md">
                                                             <img src="assets/images/avatar/1.png" alt="" class="img-fluid">
                                                         </div>
@@ -99,18 +99,18 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td>
-                                                    <select class="form-control" data-select2-selector="status">
-                                                        <option value="primary" data-bg="bg-secondary" selected>Pending</option>
-                                                        <option value="danger" data-bg="bg-danger">Declined</option>
-                                                        <option value="warning" data-bg="bg-warning">In Progress</option>
-                                                        <option value="success" data-bg="bg-success">Start</option>
-                                                        <option value="teal" data-bg="bg-teal">Closed</option>
+                                               <td>
+                                                    <select class="form-control project-status-select" data-id="{{ $project->id }}">
+                                                        <option value="pending" {{ $project->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                        <option value="declined" {{ $project->status == 'declined' ? 'selected' : '' }}>Declined</option>
+                                                        <option value="in progress" {{ $project->status == 'in progress' ? 'selected' : '' }}>In Progress</option>
+                                                        <option value="start" {{ $project->status == 'start' ? 'selected' : '' }}>Start</option>
+                                                        <option value="closed" {{ $project->status == 'closed' ? 'selected' : '' }}>Closed</option>
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <div class="hstack gap-2 justify-content-end">
-                                                        <a href="projects-view.html" class="avatar-text avatar-md">
+                                                        <a href="{{ route('project.view', $project->id) }}" class="avatar-text avatar-md">
                                                             <i class="feather feather-eye"></i>
                                                         </a>
                                                         <div class="dropdown">
@@ -183,5 +183,27 @@
                     window.location.href = `/project/delete/${id}`;
                 }
             }
+        </script>
+        <script>
+            $(document).on('change', '.project-status-select', function () {
+                const select = $(this);
+                const status = select.val();
+                const projectId = select.data('id');
+
+                $.ajax({
+                    url: `/project/update-status/${projectId}`,
+                    type: 'POST',
+                    data: {
+                        status: status,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        toastr.success(response.message || 'Status updated successfully');
+                    },
+                    error: function (xhr) {
+                        toastr.error(xhr.responseJSON?.message || 'Something went wrong');
+                    }
+                });
+            });
         </script>
 @endsection
