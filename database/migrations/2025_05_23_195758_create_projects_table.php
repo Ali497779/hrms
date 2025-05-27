@@ -23,7 +23,6 @@ return new class extends Migration
             $table->text('end_date');
             $table->text('status')->default("pending");
             $table->text('attachments');
-            $table->text('members');
             $table->integer('created_by');
             $table->timestamps();
         });

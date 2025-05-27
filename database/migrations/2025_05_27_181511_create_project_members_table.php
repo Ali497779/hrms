@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('project_members', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained()->onDelete('cascade');
+            $table->boolean('status')->default(1);
+            $table->integer('created_by');
             $table->timestamps();
         });
     }

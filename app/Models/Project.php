@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\ProjectMember;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,5 +30,9 @@ class Project extends Model
 
     public function createdby(){
         return $this->belongsTo(User::class,'id','created_by');
+    }
+
+    public function members(){
+        return $this->hasMany(ProjectMember::class,'project_id','id');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Employee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProjectMember;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -21,7 +22,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::with('members.employee.user')->get();
         return view("project.list", compact("projects"));
     }
 
@@ -39,7 +40,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        // dd($request->all(), Auth::user()->id);
         try {
             // Step 1: Validate request
             $validated = $request->validate([
@@ -47,6 +48,8 @@ class ProjectController extends Controller
                 'customer_id' => 'required|exists:customers,id',
                 'type' => 'required|string|min:3',
                 'description' => 'nullable|string',
+                'members' => 'nullable|array',
+                'members.*' => 'exists:employees,id'
             ], [
                 'customer_id.required' => 'Select Customer Please.',
                 'customer_id.exists' => 'Selected customer does not exist.',
@@ -95,9 +98,18 @@ class ProjectController extends Controller
                 'created_by' => Auth::user()->id,
             ]);
 
-            // if ($request->has('members')) {
-            //     $project->members()->attach($request->members);
-            // }
+
+
+            if ($request->has('members')) {
+                foreach($request->members as $employee_id) {
+                    ProjectMember::create([
+                        'project_id' => $project->id,
+                        'employee_id' => $employee_id,
+                        'status' => 1,
+                        'created_by' => Auth::user()->id,
+                    ]);
+                }
+            }
 
             return redirect()->route('project.list')->with('success', 'Project created successfully!');
 

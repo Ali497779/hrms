@@ -94,18 +94,9 @@
                                                 <td>{{ $project->end_date }}</td>
                                                 <td>
                                                     <select class="form-select form-control" data-select2-selector="user">
-                                                        <option value="alex@outlook.com" data-user="1">alex@outlook.com</option>
-                                                        <option value="john.deo@outlook.com" data-user="2">john.deo@outlook.com</option>
-                                                        <option value="green.cutte@outlook.com" data-user="3">green.cutte@outlook.com</option>
-                                                        <option value="nancy.elliot@outlook.com" data-user="4">nancy.elliot@outlook.com</option>
-                                                        <option value="mar.audrey@gmail.com" data-user="5">mar.audrey@gmail.com</option>
-                                                        <option value="erna.serpa@outlook.com" data-user="6">erna.serpa@outlook.com</option>
-                                                        <option value="green.cutte@outlook.com" data-user="7">green.cutte@outlook.com</option>
-                                                        <option value="nancy.elliot@outlook.com" data-user="8">nancy.elliot@outlook.com</option>
-                                                        <option value="mar.audrey@gmail.com" data-user="9" selected>mar.audrey@gmail.com</option>
-                                                        <option value="erna.serpa@outlook.com" data-user="10">erna.serpa@outlook.com</option>
-                                                        <option value="mar.audrey@gmail.com" data-user="11">mar.audrey@gmail.com</option>
-                                                        <option value="erna.serpa@outlook.com" data-user="12">erna.serpa@outlook.com</option>
+                                                        @foreach ($project->members as $member)                                                        
+                                                        <option value="" data-user="12">{{ $member->employee->user->name }} <br><small>({{ucfirst($member->employee->designation)}})</small></option>
+                                                        @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
