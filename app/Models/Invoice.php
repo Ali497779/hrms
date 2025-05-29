@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Customer;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Invoice extends Model
+{
+    use HasFactory;
+    protected $table = 'invoices';
+    protected $fillable = [
+        'customer_id',
+        'createdby',
+        'product',
+        'qty',
+        'price',
+        'total',
+        'invoice_description',
+        'sub_total',
+        'tax_percent',
+        'tax_amount',
+        'total_amount',
+        'issue_date',
+    ];
+
+    public function customer(){
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function createdby(){
+        return $this->belongsTo(User::class, 'createdby', 'id');
+    }
+}

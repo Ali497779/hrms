@@ -1,0 +1,183 @@
+@extends('layouts.dashboard')
+
+@section('title', 'Dashboard')
+
+@section('content')
+
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <!-- [ page-header ] start -->
+            <div class="page-header">
+                <div class="page-header-left d-flex align-items-center">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Invoice</h5>
+                    </div>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item">Invoice</li>
+                    </ul>
+                </div>
+                <div class="page-header-right ms-auto">
+                    <div class="page-header-right-items">
+                        <div class="d-flex d-md-none">
+                            <a href="javascript:void(0)" class="page-header-right-close-toggle">
+                                <i class="feather-arrow-left me-2"></i>
+                                <span>Back</span>
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
+                            <a href="{{route('invoice.create')}}" class="btn btn-primary">
+                                <i class="feather-plus me-2"></i>
+                                <span>Create Invoice</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="d-md-none d-flex align-items-center">
+                        <a href="javascript:void(0)" class="page-header-right-open-toggle">
+                            <i class="feather-align-right fs-20"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [ Main Content ] start -->
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card stretch stretch-full">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="paymentList">
+                                        <thead>
+                                            <tr>
+                                                <th>Client</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                {{-- <th>Transaction</th> --}}
+                                                <th>Status</th>
+                                                <th class="text-end">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($invoices as $invoice)
+                                            <tr class="single-item">
+                                                <td>
+                                                    <a href="javascript:void(0)" class="hstack gap-3">
+                                                        <div class="avatar-image avatar-md">
+                                                            <img src="assets/images/avatar/1.png" alt="" class="img-fluid">
+                                                        </div>
+                                                        <div>
+                                                            <span class="text-truncate-1-line">{{ $invoice->customer->user->name }}</span>
+                                                            <small class="fs-12 fw-normal text-muted">{{ $invoice->customer->user->email }}</small>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <td class="fw-bold text-dark">${{ $invoice->total_amount }} USD</td>
+                                                <td>{{ $invoice->created_at->format('d/n/Y h:i A') }}</td>
+                                                {{-- <td><a href="javascript:void(0);">#SDEG4589SE1E</a></td> --}}
+                                                <td>
+                                                    @if($invoice->status)
+                                                    <div class="badge bg-soft-success text-success">Paid</div>
+                                                    @else
+                                                    <div class="badge bg-soft-danger text-danger">Unpaid</div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="hstack gap-2 justify-content-end">
+                                                        <a href="invoice-view.html" class="avatar-text avatar-md">
+                                                            <i class="feather feather-eye"></i>
+                                                        </a>
+                                                        <div class="dropdown">
+                                                            <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="dropdown" data-bs-offset="0,21">
+                                                                <i class="feather feather-more-horizontal"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                                        <i class="feather feather-edit-3 me-3"></i>
+                                                                        <span>Edit</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item printBTN" href="javascript:void(0)">
+                                                                        <i class="feather feather-printer me-3"></i>
+                                                                        <span>Print</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                                        <i class="feather feather-clock me-3"></i>
+                                                                        <span>Remind</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="dropdown-divider"></li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                                        <i class="feather feather-archive me-3"></i>
+                                                                        <span>Archive</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                                        <i class="feather feather-alert-octagon me-3"></i>
+                                                                        <span>Report Spam</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="dropdown-divider"></li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                                        <i class="feather feather-trash-2 me-3"></i>
+                                                                        <span>Delete</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ Main Content ] end -->
+
+        </div>
+        </div>
+        <!-- [ Main Content ] end -->
+
+
+        <script>
+            function deleteInvoice(id) {
+                if (confirm("Did you want to delete this Invoice?")) {
+                    window.location.href = `/Invoice/delete/${id}`;
+                }
+            }
+        </script>
+        <script>
+            $(document).on('change', '.Invoice-status-select', function () {
+                const select = $(this);
+                const status = select.val();
+                const InvoiceId = select.data('id');
+
+                $.ajax({
+                    url: `/Invoice/update-status/${InvoiceId}`,
+                    type: 'POST',
+                    data: {
+                        status: status,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        toastr.success(response.message || 'Status updated successfully');
+                    },
+                    error: function (xhr) {
+                        toastr.error(xhr.responseJSON?.message || 'Something went wrong');
+                    }
+                });
+            });
+        </script>
+@endsection
