@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'sale', 'as' => 
     Route::get('/view/{id}', [SaleController::class, 'show'])->name('view'); 
     Route::get('/delete/{id}', [SaleController::class, 'delete'])->name('delete'); 
     Route::post('/update-status/{id}', [SaleController::class, 'updateStatus']);
+    Route::post('/send_invoice', [SaleController::class, 'SendInvoice'])->name('send_invoice');
 });
 
 

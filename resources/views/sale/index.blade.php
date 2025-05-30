@@ -96,30 +96,14 @@
                                                 <td>
                                                     <div class="hstack gap-2 justify-content-end">
                                                         @if($invoice->hosted_invoice_url)
-                                                            <a href="{{ $invoice->hosted_invoice_url }}" target="_blank" class="avatar-text avatar-md">
-                                                                <i class="feather feather-eye"></i>
-                                                            </a>
+                                                        <form action="{{ route('sale.send_invoice') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
+                                                            <button type="submit"  class="btn btn-primary" {{ $invoice->status == 'paid' ? 'disabled' :'' }}>
+                                                                <i class="feather feather-mail"></i> Send Invoice
+                                                            </button>
+                                                        </form>
                                                         @endif
-                                                        {{-- <div class="dropdown">
-                                                            <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="dropdown" data-bs-offset="0,21">
-                                                                <i class="feather feather-more-horizontal"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu">
-                                                                <li>
-                                                                    <a class="dropdown-item" href="{{ $invoice->hosted_invoice_url }}" target="_blank">
-                                                                        <i class="feather feather-printer me-3"></i>
-                                                                        <span>View Online</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="dropdown-divider"></li>
-                                                                <li>
-                                                                    <a class="dropdown-item text-danger" href="javascript:void(0);" onclick="alert('Use Stripe Dashboard to delete invoices.')">
-                                                                        <i class="feather feather-trash-2 me-3"></i>
-                                                                        <span>Delete</span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div> --}}
                                                     </div>
                                                 </td>
                                             </tr>

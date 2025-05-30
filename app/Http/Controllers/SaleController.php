@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
-use Stripe\Invoice as StripeInvoice;
+use App\Models\Sale;
 use Stripe\InvoiceItem;
 use App\Models\Customer;
-use App\Models\Sale;
+use Illuminate\Http\Request;
+use App\Mail\SendStripeInvoice;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Stripe\Invoice as StripeInvoice;
 
 
 class SaleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $invoices = Sale::with('customer.user', 'createdby')->get();
@@ -108,4 +105,31 @@ class SaleController extends Controller
             return back()->with('error', 'Failed to create Sales: ' . $e->getMessage());
         }
     }
+
+    public function SendInvoice(Request $request)
+    {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        try {
+            // Use invoice ID from form (you need to add it to the form)
+            $invoiceId = $request->invoice_id;
+
+            $invoice = \Stripe\Invoice::retrieve($invoiceId);
+
+            $customerEmail = $invoice->customer_email;
+            $hostedInvoiceUrl = $invoice->hosted_invoice_url;
+            $invoicePdf = $invoice->invoice_pdf;
+
+            if ($customerEmail) {
+                Mail::to($customerEmail)->send(new SendStripeInvoice($hostedInvoiceUrl, $invoicePdf));
+                return back()->with('success', 'Invoice sent successfully to ' . $customerEmail);
+            } else {
+                return back()->with('error', 'Customer email not found.');
+            }
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to send invoice: ' . $e->getMessage());
+        }
+    }
+
 }
