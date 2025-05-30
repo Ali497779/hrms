@@ -10,7 +10,7 @@
             <div class="page-header">
                 <div class="page-header-left d-flex align-items-center">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Invoice</h5>
+                        <h5 class="m-b-10">Sale Invoice</h5>
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -26,9 +26,9 @@
                             </a>
                         </div>
                         <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
-                            <a href="{{route('invoice.create')}}" class="btn btn-primary">
+                            <a href="{{route('sale.create')}}" class="btn btn-primary">
                                 <i class="feather-plus me-2"></i>
-                                <span>Create Invoice</span>
+                                <span>Create Sale Invoice</span>
                             </a>
                         </div>
                     </div>
@@ -64,74 +64,62 @@
                                                 <td>
                                                     <a href="javascript:void(0)" class="hstack gap-3">
                                                         <div class="avatar-image avatar-md">
-                                                            <img src="assets/images/avatar/1.png" alt="" class="img-fluid">
+                                                            <img src="{{ asset('assets/images/avatar/1.png') }}" alt="" class="img-fluid">
                                                         </div>
                                                         <div>
-                                                            <span class="text-truncate-1-line">{{ $invoice->customer->user->name }}</span>
-                                                            <small class="fs-12 fw-normal text-muted">{{ $invoice->customer->user->email }}</small>
+                                                            <span class="text-truncate-1-line">
+                                                                {{ $invoice->customer_name ?? 'N/A' }}
+                                                            </span>
+                                                            <small class="fs-12 fw-normal text-muted">
+                                                                {{ $invoice->customer_email ?? 'N/A' }}
+                                                            </small>
                                                         </div>
                                                     </a>
                                                 </td>
-                                                <td class="fw-bold text-dark">${{ $invoice->total_amount }} USD</td>
-                                                <td>{{ $invoice->created_at->format('d/n/Y h:i A') }}</td>
-                                                {{-- <td><a href="javascript:void(0);">#SDEG4589SE1E</a></td> --}}
+
+                                                <td class="fw-bold text-dark">
+                                                    ${{ number_format($invoice->amount_due / 100, 2) }} USD
+                                                </td>
+
                                                 <td>
-                                                    @if($invoice->status)
-                                                    <div class="badge bg-soft-success text-success">Paid</div>
+                                                    {{ \Carbon\Carbon::createFromTimestamp($invoice->created)->format('d/n/Y h:i A') }}
+                                                </td>
+
+                                                <td>
+                                                    @if($invoice->status == 'paid')
+                                                        <div class="badge bg-soft-success text-success">Paid</div>
                                                     @else
-                                                    <div class="badge bg-soft-danger text-danger">Unpaid</div>
+                                                        <div class="badge bg-soft-danger text-danger">{{ ucfirst($invoice->status) }}</div>
                                                     @endif
                                                 </td>
+
                                                 <td>
                                                     <div class="hstack gap-2 justify-content-end">
-                                                        <a href="invoice-view.html" class="avatar-text avatar-md">
-                                                            <i class="feather feather-eye"></i>
-                                                        </a>
-                                                        <div class="dropdown">
+                                                        @if($invoice->hosted_invoice_url)
+                                                            <a href="{{ $invoice->hosted_invoice_url }}" target="_blank" class="avatar-text avatar-md">
+                                                                <i class="feather feather-eye"></i>
+                                                            </a>
+                                                        @endif
+                                                        {{-- <div class="dropdown">
                                                             <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="dropdown" data-bs-offset="0,21">
                                                                 <i class="feather feather-more-horizontal"></i>
                                                             </a>
                                                             <ul class="dropdown-menu">
                                                                 <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0)">
-                                                                        <i class="feather feather-edit-3 me-3"></i>
-                                                                        <span>Edit</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item printBTN" href="javascript:void(0)">
+                                                                    <a class="dropdown-item" href="{{ $invoice->hosted_invoice_url }}" target="_blank">
                                                                         <i class="feather feather-printer me-3"></i>
-                                                                        <span>Print</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0)">
-                                                                        <i class="feather feather-clock me-3"></i>
-                                                                        <span>Remind</span>
+                                                                        <span>View Online</span>
                                                                     </a>
                                                                 </li>
                                                                 <li class="dropdown-divider"></li>
                                                                 <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0)">
-                                                                        <i class="feather feather-archive me-3"></i>
-                                                                        <span>Archive</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0)">
-                                                                        <i class="feather feather-alert-octagon me-3"></i>
-                                                                        <span>Report Spam</span>
-                                                                    </a>
-                                                                </li>
-                                                                <li class="dropdown-divider"></li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0)">
+                                                                    <a class="dropdown-item text-danger" href="javascript:void(0);" onclick="alert('Use Stripe Dashboard to delete invoices.')">
                                                                         <i class="feather feather-trash-2 me-3"></i>
                                                                         <span>Delete</span>
                                                                     </a>
                                                                 </li>
                                                             </ul>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </td>
                                             </tr>

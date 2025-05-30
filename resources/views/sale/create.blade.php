@@ -5,7 +5,7 @@
 @section('content')
 
     <main class="nxl-container">
-        <form action="{{ route('invoice.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('sale.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
         <div class="nxl-content">
             <!-- [ page-header ] start -->
@@ -24,10 +24,10 @@
             <!-- [ Main Content ] start -->
             {{-- {{ dd(date('d/m/Y')) }} --}}
             <div class="row">
-                <div class="col-xl-8">
+                <div class="col-xl-12">
                     <div class="card invoice-container">
                         <div class="card-header">
-                            <h5>Invoice Create</h5>
+                            <h5>Sale Invoice Create</h5>
                         </div>
                         <div class="card-body p-0">
                             <div class="px-4 pt-4">
@@ -114,26 +114,26 @@
                                         <thead>
                                             <tr class="single-item">
                                                 <th class="text-center">#</th>
-                                                <th class="text-center wd-450">Product</th>
-                                                <th class="text-center wd-150">Qty</th>
-                                                <th class="text-center wd-150">Price</th>
-                                                <th class="text-center wd-150">Total</th>
+                                                <th class="text-center">Product</th>
+                                                {{-- <th class="text-center wd-150">Qty</th> --}}
+                                                <th class="text-center wd-250">Price</th>
+                                                {{-- <th class="text-center wd-150">Total</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr id="addr0">
-                                                <td>1</td>
+                                                <td class="text-center">1</td>
                                                 <td><input type="text" name="product[]" placeholder="Enter Product Name" class="form-control"></td>
-                                                <td><input type="number" name="qty[]" placeholder="Enter Qty" class="form-control qty" step="1" min="1"></td>
+                                                <td class="d-none"><input type="hidden" name="qty[]" placeholder="Enter Qty" class="form-control qty" value="1" step="1" min="1"></td>
                                                 <td><input type="number" name="price[]" placeholder="Enter Unit Price" class="form-control price" step="1.00" min="1"></td>
-                                                <td><input type="number" name="total[]" placeholder="0.00" class="form-control total" readonly=""></td>
+                                                <td class="d-none"><input type="number" name="total[]" placeholder="0.00" class="form-control total" readonly=""></td>
                                             </tr>
                                             <tr id="addr1">
-                                                <td>2</td>
+                                                <td class="text-center">2</td>
                                                 <td></td>
                                                 <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                {{-- <td></td> --}}
+                                                {{-- <td></td> --}}
                                             </tr>
                                         </tbody>
                                     </table>
@@ -144,57 +144,59 @@
                                 </div>
                             </div>
                             <hr class="border-dashed">
-                            <div class="px-4 pb-4">
+                            {{-- <div class="px-4 pb-4">
                                 <div class="form-group">
                                     <label for="InvoiceNote" class="form-label">Invoice Description:</label>
                                     <textarea rows="6" class="form-control" id="InvoiceNote" name="invoice_description" placeholder="It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!"></textarea>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="card stretch stretch-full">
-                        <div class="card-body">
-                            <div class="mb-4 d-flex align-items-center justify-content-between">
-                                <div>
-                                    <h6 class="fw-bold">Grand Total:</h6>
-                                    <span class="fs-12 text-muted">Grand total invoice</span>
-                                </div>
-                                <div class="avatar-text avatar-sm" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Grand total invoice">
-                                    <i class="feather feather-info"></i>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="tab_logic_total">
-                                    <tbody>
-                                        <tr class="single-item">
-                                            <th class="text-dark fw-semibold">Sub Total</th>
-                                            <td class="w-25"><input type="number" name="sub_total" placeholder="0.00" class="form-control border-0 bg-transparent p-0" id="sub_total" readonly=""></td>
-                                        </tr>
-                                        <tr class="single-item">
-                                            <th class="text-dark fw-semibold">Tax</th>
-                                            <td class="w-25">
-                                                <div class="input-group mb-2 mb-sm-0">
-                                                    <input type="number" name="tax_percent" class="form-control border-0 bg-transparent p-0" id="tax" placeholder="0">
-                                                    <div class="input-group-addon">%</div>
+                            </div> --}}
+                            <div class="row d-flex justify-content-end">
+                                <div class="col-xl-4">
+                                    <div class="card stretch stretch-full">
+                                        <div class="card-body">
+                                            <div class="mb-4 d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h6 class="fw-bold">Grand Total:</h6>
+                                                    <span class="fs-12 text-muted">Grand total invoice</span>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                        <tr class="single-item">
-                                            <th class="text-dark fw-semibold">Tax Amount</th>
-                                            <td class="w-25"><input type="number" name="tax_amount" id="tax_amount" placeholder="0.00" class="form-control border-0 bg-transparent p-0" readonly=""></td>
-                                        </tr>
-                                        <tr class="single-item">
-                                            <th class="text-dark fw-semibold bg-gray-100">Grand Total</th>
-                                            <td class="bg-gray-100 w-25"><input type="number" name="total_amount" id="total_amount" placeholder="0.00" class="form-control border-0 bg-transparent p-0 fw-bolder text-dark" readonly=""></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                <div class="avatar-text avatar-sm" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Grand total invoice">
+                                                    <i class="feather feather-info"></i>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="tab_logic_total">
+                                                    <tbody>
+                                                        <tr class="single-item">
+                                                            <th class="text-dark fw-semibold">Sub Total</th>
+                                                            <td class="w-25"><input type="number" name="sub_total" placeholder="0.00" class="form-control border-0 bg-transparent p-0" id="sub_total" readonly=""></td>
+                                                        </tr>
+                                                        <tr class="single-item d-none">
+                                                            <th class="text-dark fw-semibold">Tax</th>
+                                                            <td class="w-25">
+                                                                <div class="input-group mb-2 mb-sm-0">
+                                                                    <input type="number" name="tax_percent" class="form-control border-0 bg-transparent p-0" id="tax" placeholder="0">
+                                                                    <div class="input-group-addon">%</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="single-item d-none">
+                                                            <th class="text-dark fw-semibold">Tax Amount</th>
+                                                            <td class="w-50"><input type="number" name="tax_amount" id="tax_amount" placeholder="0.00" class="form-control d-none border-0 bg-transparent p-0" readonly=""></td>
+                                                        </tr>
+                                                        <tr class="single-item">
+                                                            <th class="text-dark fw-semibold bg-gray-100">Grand Total</th>
+                                                            <td class="bg-gray-100 w-50"><input type="number" name="total_amount" id="total_amount" placeholder="0.00" class="form-control border-0 bg-transparent p-0 fw-bolder text-dark" readonly=""></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row m-5">
+                                            <button type="submit" class="btn btn-primary">Create Invoice</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row m-5">
-                            <button type="submit" class="btn btn-primary">Create Invoice</button>
                         </div>
                     </div>
                 </div>

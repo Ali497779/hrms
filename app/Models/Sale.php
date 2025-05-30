@@ -6,10 +6,10 @@ use App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Invoice extends Model
+class Sale extends Model
 {
     use HasFactory;
-    protected $table = 'invoices';
+    protected $table = 'sales';
     protected $fillable = [
         'customer_id',
         'createdby',
@@ -23,6 +23,8 @@ class Invoice extends Model
         'tax_amount',
         'total_amount',
         'issue_date',
+        'invoice_stripe_id',
+        'invoice_payment_link'
     ];
 
     public function customer(){

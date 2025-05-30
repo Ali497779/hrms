@@ -17,6 +17,7 @@ class Customer extends Model
         'email',
         'phone',
         'created_by',
+        'stripe_customer_id',
     ];
 
     public function user()

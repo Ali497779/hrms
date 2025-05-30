@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained(); // assumes 'customers' table exists
             $table->foreignId('createdby')->constrained('users'); // fix here
@@ -27,6 +27,8 @@ return new class extends Migration
             $table->decimal('tax_amount', 10, 2)->nullable();
             $table->decimal('total_amount', 10, 2)->nullable();
             $table->date('issue_date');
+            $table->string('invoice_stripe_id')->nullable();
+            $table->string('invoice_payment_link')->nullable();
             $table->timestamps();
         });
     }

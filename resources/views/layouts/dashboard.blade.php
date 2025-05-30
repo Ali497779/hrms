@@ -658,11 +658,11 @@
                  <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
-                        <span class="nxl-mtext">Payment</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        <span class="nxl-mtext">Sale</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                     </a>
                     <ul class="nxl-submenu">
-                        <li class="nxl-item"><a class="nxl-link" href="{{ route('invoice.list') }}">Payment</a></li>
-                        <li class="nxl-item"><a class="nxl-link" href="{{ route('invoice.create') }}">Invoice Create</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('sale.list') }}">Sales</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('sale.create') }}">Sale Invoice Create</a></li>
                     </ul>
                 </li>
                 @endif

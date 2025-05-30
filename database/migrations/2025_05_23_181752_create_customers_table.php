@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('email')->nullable();
             $table->text('phone')->nullable();
             $table->text('created_by')->nullable();
+            $table->text('stripe_customer_id')->nullable();
             $table->timestamps();
         });
     }

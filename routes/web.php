@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
@@ -63,15 +63,16 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'project', 'as' 
     Route::post('/update-status/{id}', [ProjectController::class, 'updateStatus']);
 });
 
-Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'invoice', 'as' => 'invoice.'], function () {
-    Route::get('/', [InvoiceController::class, 'index'])->name('list'); 
-    Route::get('/create', [InvoiceController::class, 'create'])->name('create'); 
-    Route::post('/store', [InvoiceController::class, 'store'])->name('store'); 
-    Route::get('/edit/{id}', [InvoiceController::class, 'edit'])->name('edit'); 
-    Route::put('/update/{id}', [InvoiceController::class, 'update'])->name('update');
-    Route::get('/view/{id}', [InvoiceController::class, 'show'])->name('view'); 
-    Route::get('/delete/{id}', [InvoiceController::class, 'delete'])->name('delete'); 
-    Route::post('/update-status/{id}', [InvoiceController::class, 'updateStatus']);
+Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'sale', 'as' => 'sale.'], function () {
+    // Route::get('/', [SaleController::class, 'index'])->name('list'); 
+    Route::get('/', [SaleController::class, 'InvoiceList'])->name('list'); 
+    Route::get('/create', [SaleController::class, 'create'])->name('create'); 
+    Route::post('/store', [SaleController::class, 'store'])->name('store'); 
+    Route::get('/edit/{id}', [SaleController::class, 'edit'])->name('edit'); 
+    Route::put('/update/{id}', [SaleController::class, 'update'])->name('update');
+    Route::get('/view/{id}', [SaleController::class, 'show'])->name('view'); 
+    Route::get('/delete/{id}', [SaleController::class, 'delete'])->name('delete'); 
+    Route::post('/update-status/{id}', [SaleController::class, 'updateStatus']);
 });
 
 

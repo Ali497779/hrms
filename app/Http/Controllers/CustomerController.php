@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Stripe\Stripe;
+use Stripe\Customer as StripeCustomer;
 
 class CustomerController extends Controller
 {
@@ -36,14 +38,16 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    
     public function store(Request $request)
     {
         $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8|confirmed'
-            ]);
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed'
+        ]);
 
+        // Create user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -51,13 +55,23 @@ class CustomerController extends Controller
             'is_customer' => true,
         ]);
 
-        Customer::create([
-            'user_id'=> $user->id,
+        // Create Stripe customer
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $stripeCustomer = StripeCustomer::create([
             'name' => $request->name,
-            'email'=> $request->email,
+            'email' => $request->email,
         ]);
 
-        return redirect()->route('customer.list')->with('success','Customer Created Successfully!');
+        // Create local customer and save Stripe customer ID
+        Customer::create([
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'stripe_customer_id' => $stripeCustomer->id,
+        ]);
+
+        return redirect()->route('customer.list')->with('success', 'Customer Created Successfully!');
     }
 
 
