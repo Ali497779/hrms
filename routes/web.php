@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
@@ -74,6 +75,17 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'sale', 'as' => 
     Route::get('/delete/{id}', [SaleController::class, 'delete'])->name('delete'); 
     Route::post('/update-status/{id}', [SaleController::class, 'updateStatus']);
     Route::post('/send_invoice', [SaleController::class, 'SendInvoice'])->name('send_invoice');
+});
+
+Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'lead', 'as' => 'lead.'], function () {
+    Route::get('/', [LeadController::class, 'index'])->name('list'); 
+    Route::get('/create', [LeadController::class, 'create'])->name('create'); 
+    Route::post('/store', [LeadController::class, 'store'])->name('store'); 
+    Route::get('/edit/{id}', [LeadController::class, 'edit'])->name('edit'); 
+    Route::put('/update/{id}', [LeadController::class, 'update'])->name('update');
+    Route::get('/view/{id}', [LeadController::class, 'show'])->name('view'); 
+    Route::get('/delete/{id}', [LeadController::class, 'delete'])->name('delete'); 
+    Route::post('/update-status/{id}', [LeadController::class, 'updateStatus']);
 });
 
 

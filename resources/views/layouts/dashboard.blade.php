@@ -666,6 +666,18 @@
                     </ul>
                 </li>
                 @endif
+                @if($admin || $sales || $projectmanager)
+                 <li class="nxl-item nxl-hasmenu">
+                    <a href="javascript:void(0);" class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-alert-circle"></i></span>
+                        <span class="nxl-mtext">Lead</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                    </a>
+                    <ul class="nxl-submenu">
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('lead.list') }}">Leads</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('lead.create') }}">Lead Create</a></li>
+                    </ul>
+                </li>
+                @endif
             </ul>
         </div>
     </div>
@@ -742,16 +754,22 @@
     @if(session('success'))
         toastr.success("{{ session('success') }}");
     @endif
+
     @if(session('error'))
         toastr.error("{{ session('error') }}");
     @endif
-    @if(session('warning'))
-        toastr.warning("{{ session('warning') }}");
+
+    @if(session('validation_errors'))
+        toastr.warning("{{ session('validation_errors') }}");
     @endif
-    @if(session('info'))
-        toastr.info("{{ session('info') }}");
+
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            toastr.error("{{ $error }}");
+        @endforeach
     @endif
 </script>
+
 </body>
 
 </html>
