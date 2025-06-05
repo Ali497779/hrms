@@ -66,7 +66,11 @@
                                                     <td>
                                                         <a href="leads-view.html" class="hstack gap-3">
                                                             <div class="avatar-image avatar-md">
-                                                                <img src="assets/images/avatar/1.png" alt="" class="img-fluid">
+                                                                @php
+                                                                    $randomColor = substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+                                                                @endphp
+                                                                <img src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode($lead->name ) }}"
+                                                                    alt="user-image" class="img-fluid user-avtar me-0">
                                                             </div>
                                                             <div>
                                                                 <span class="text-truncate-1-line">{{ $lead->name }}</span>
