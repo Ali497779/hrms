@@ -87,6 +87,21 @@
                                 </a>
                             </div>
                         </div>
+                        @if(!$todayAttendance || !$todayAttendance->check_in_time)
+                            <form action="{{ route('attendance.check-in') }}" method="POST" onsubmit="return getLocation();">
+                                @csrf
+                                <input type="hidden" name="latitude" id="latitude">
+                                <input type="hidden" name="longitude" id="longitude">
+                                <button class="btn btn-primary p-5" type="submit">Check In</button>
+                            </form>
+                        @elseif(!$todayAttendance->check_out_time)
+                            <form action="{{ route('attendance.check-out') }}" method="POST">
+                                @csrf
+                                <button class="btn btn-secondary p-5" type="submit">Check Out</button>
+                            </form>
+                        @else
+                            <button class="btn btn-success p-5" disabled>Checked Out</button>
+                        @endif
                     </div>
                 </div>
                 <div class="d-md-none d-flex align-items-center">
@@ -1276,5 +1291,20 @@
     </div>
 </main>
 <!--! ================================================================ !-->
-
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.getElementById('latitude').value = position.coords.latitude;
+            document.getElementById('longitude').value = position.coords.longitude;
+            document.forms[0].submit();
+        }, function(error) {
+            alert("Location permission denied or error getting location.");
+        });
+    } else {
+        alert("Geolocation is not supported.");
+    }
+    return false;
+}
+</script>
 @endsection

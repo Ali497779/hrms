@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -51,6 +52,11 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'customer', 'as'
     Route::put('/update/{id}', [CustomerController::class, 'update'])->name('update');
     Route::get('/view/{id}', [CustomerController::class, 'detail'])->name('view'); 
     Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('delete'); 
+});
+
+Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'prefix' => 'attendance', 'as' => 'attendance.'], function () {
+    Route::post('/check-in', [AttendanceController::class, 'checkIn'])->name('check-in');
+    Route::post('/check-out', [AttendanceController::class, 'checkout'])->name('check-out');
 });
 
 Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'project', 'as' => 'project.'], function () {

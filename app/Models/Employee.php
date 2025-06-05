@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Ticket;
+use App\Models\Attendance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -33,6 +35,14 @@ class Employee extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function attendance(){
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function tickets(){
+        return $this->hasMany(Ticket::class);
     }
     
     // public function setDesignationAttribute($value)

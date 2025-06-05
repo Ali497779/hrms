@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Ticket extends Model
+{
+    use HasFactory;
+    protected $table = 'tickets';
+    protected $fillable = [
+        'user_id',
+        'date',
+        'status',
+        'reason'
+    ];
+
+    public function employee(){
+        return $this->belongsTo(User::class);
+    }
+}

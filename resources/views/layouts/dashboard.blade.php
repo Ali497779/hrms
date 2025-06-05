@@ -666,7 +666,7 @@
                 </li>
                 @endif
                 @if($admin || $sales || $projectmanager)
-                 <li class="nxl-item nxl-hasmenu">
+                <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-alert-circle"></i></span>
                         <span class="nxl-mtext">Lead</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
@@ -674,6 +674,18 @@
                     <ul class="nxl-submenu">
                         <li class="nxl-item"><a class="nxl-link" href="{{ route('lead.list') }}">Leads</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="{{ route('lead.create') }}">Lead Create</a></li>
+                    </ul>
+                </li>
+                @endif
+                @if($admin)
+                <li class="nxl-item nxl-hasmenu">
+                    <a href="javascript:void(0);" class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-layout"></i></span>
+                        <span class="nxl-mtext">Payroll</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                    </a>
+                    <ul class="nxl-submenu">
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('lead.list') }}">Payroll Lists</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('lead.create') }}">Generate Payroll</a></li>
                     </ul>
                 </li>
                 @endif

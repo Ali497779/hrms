@@ -64,7 +64,11 @@
                                                 <td>
                                                     <a href="javascript:void(0)" class="hstack gap-3">
                                                         <div class="avatar-image avatar-md">
-                                                            <img src="{{ asset('assets/images/avatar/1.png') }}" alt="" class="img-fluid">
+                                                            @php
+                                                                $randomColor = 'ca0c2a'; // no '#' needed for UI Avatars API
+                                                            @endphp
+                                                            <img src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode($invoice->customer_name) }}"
+                                                                class="img-fluid">
                                                         </div>
                                                         <div>
                                                             <span class="text-truncate-1-line">
