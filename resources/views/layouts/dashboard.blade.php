@@ -448,22 +448,27 @@
                     <div class="dropdown nxl-h-item">
                         <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button"
                             data-bs-auto-close="outside">
-                            <img src="{{asset('assets/images/avatar/1.png')}}" alt="user-image" class="img-fluid user-avtar me-0" />
+                            @php
+                                $randomColor = 'ca0c2a'; // no '#' needed for UI Avatars API
+                            @endphp
+
+                            <img src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode(Auth::user()->name) }}"
+                                alt="user-image" class="img-fluid user-avtar me-0">
                         </a>
                         <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-user-dropdown">
                             <div class="dropdown-header">
                                 <div class="d-flex align-items-center">
-                                    <img src="{{asset('assets/images/avatar/1.png')}}" alt="user-image"
-                                        class="img-fluid user-avtar" />
+                                    <img src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode(Auth::user()->name) }}"
+                                       alt="user-image" class="img-fluid user-avtar">    
                                     <div>
                                         <h6 class="text-dark mb-0">{{ Auth::user()->name }}</h6>
                                         <span class="fs-12 fw-medium text-muted">{{ Auth::user()->email }}</span><br>
                                         <span class="fs-12 fw-medium text-muted">
                                         <?php
-                                            $is_sales = true;
-                                            $is_developer = false;
-                                            $is_admin = false;
-                                            $is_customer = false;
+                                            $is_admin = $admin;
+                                            $is_sales = $sales;
+                                            $is_developer = $developer;
+                                            $is_customer = $customer;
 
                                             switch (true) {
                                                 case $is_sales:
@@ -596,13 +601,7 @@
                                 class="feather-chevron-right"></i></span>
                     </a>
                     <ul class="nxl-submenu">
-                        @php
-                            $currentGuard = session('guard'); // this was set at login
-                            $admin = $currentGuard === 'admin';
-                            $developer = $currentGuard === 'developer';
-                            $sales = $currentGuard === 'sales';
-                            $projectmanager = $currentGuard === 'projectmanager';
-                        @endphp
+                        
 
                         @if($sales || $admin)
                         <li class="nxl-item"><a class="nxl-link" href="reports-sale.php">Sales Report</a></li>

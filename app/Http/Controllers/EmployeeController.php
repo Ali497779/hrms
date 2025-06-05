@@ -74,6 +74,8 @@ class EmployeeController extends Controller
             $employeeData['user_id'] = $user->id;
             $employeeData['avatar'] = $avatarName; // store only filename
             $employeeData['designation'] = $designationMap[$request->designation] ?? $request->designation;
+            $employeeData['salary'] = $request->salary;
+            $employeeData['comission'] = $request->comission;
 
             // Step 6: Create employee
             Employee::create($employeeData);
@@ -171,6 +173,8 @@ class EmployeeController extends Controller
 
             $employee->phone = $request->phone ?? $employee->phone;
             $employee->date_of_birth = $request->date_of_birth ?? $employee->date_of_birth;
+            $employee->salary = $request->salary ?? $employee->salary;
+            $employee->comission = $request->comission ?? $employee->comission;
 
             $employee->save();
 

@@ -82,6 +82,12 @@
                                                     </td>
                                                     <td>
                                                         <a href="{{route('customer.view', $customer->id)}}" class="hstack gap-3">
+                                                            @php
+                                                                $randomColor = substr(md5($customer->user->name), 0, 6); // deterministic based on name, optional
+                                                            @endphp
+
+                                                            <img class="avatar-image avatar-md" src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode($customer->user->name) }}"
+                                                                alt="Avatar" width="100">
                                                             <div>
                                                                 <span
                                                                     class="text-truncate-1-line">{{$customer->user->name}}</span>

@@ -30,6 +30,8 @@ return new class extends Migration
         $table->string('state')->nullable();
         $table->string('city')->nullable();
         $table->string('time_zone')->nullable();
+        $table->decimal('salary', 10, 2)->nullable();
+        $table->integer('comission')->nullable();
         $table->timestamps();
     });
     }

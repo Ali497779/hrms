@@ -26,6 +26,8 @@ class Employee extends Model
         'state',
         'city',
         'time_zone',
+        'salary',
+        'comission',
     ];
 
     public function user()

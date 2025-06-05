@@ -55,8 +55,20 @@ class AuthController extends Controller
         return redirect()->back()->with('error', 'Role not assigned.');
     }
 
-    public function logout(){
-        Auth::logout();
+    public function logout(Request $request)
+    {
+        // Log out from all guards if using multi-auth
+        foreach (array_keys(config('auth.guards')) as $guard) {
+            if (Auth::guard($guard)->check()) {
+                Auth::guard($guard)->logout();
+            }
+        }
+
+        // Clear session data
+        $request->session()->invalidate();
+        $request->session()->regenerateToken(); // CSRF token
+
+        // Redirect to login or homepage
         return redirect()->route('login');
     }
 }

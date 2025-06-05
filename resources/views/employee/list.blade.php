@@ -83,10 +83,20 @@
                                                     </td>
                                                     <td>
                                                         <a href="{{route('employee.view', $employee->id)}}" class="hstack gap-3">
+                                                            @if ($employee->avatar)
                                                             <div class="avatar-image avatar-md">
                                                                 <img src="{{ asset('assets/images/employee/' . $employee->avatar) }}"
                                                                     alt="Avatar" width="100">
                                                             </div>
+                                                            @else
+                                                            @php
+                                                                $randomColor = substr(md5($employee->user->name), 0, 6); // deterministic based on name, optional
+                                                            @endphp
+
+                                                            <img class="avatar-image avatar-md" src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode($employee->user->name) }}"
+                                                                alt="Avatar" width="100">
+                                                            
+                                                            @endif
                                                             <div>
                                                                 <span
                                                                     class="text-truncate-1-line">{{$employee->user->name}}</span>

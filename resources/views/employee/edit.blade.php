@@ -4,6 +4,14 @@
 
 @section('content')
 
+@php
+    $currentGuard = session('guard'); // this was set at login
+    $admin = $currentGuard === 'admin';
+    $developer = $currentGuard === 'developer';
+    $sales = $currentGuard === 'sales';
+    $projectmanager = $currentGuard === 'projectmanager';
+@endphp
+
 <main class="nxl-container">
     <div class="nxl-content">
         <div class="page-header">
@@ -54,7 +62,7 @@
                                                             class="wd-100 ht-100 position-relative overflow-hidden border border-gray-2 rounded">
                                                             <img src="{{ asset('assets/images/avatar/1.png') }}"
                                                                 class="upload-pic img-fluid rounded h-100 w-100" alt="">
-                                                            <div
+                                                            <div style="top: 150% !important;"
                                                                 class="position-absolute start-50 top-50 end-0 bottom-0 translate-middle h-100 w-100 hstack align-items-center justify-content-center c-pointer upload-button">
                                                                 <i class="feather feather-camera" aria-hidden="true"></i>
                                                             </div>
@@ -72,6 +80,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @if ( $employee->avatar)
                                             <div class="col-lg-4">
                                                 <label class="fw-semibold">Old Avatar: </label>
                                             </div>
@@ -86,6 +95,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
 
                                         {{-- Name --}}
@@ -168,6 +178,41 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    @if($admin)
+                                    <hr class="my-0">
+                                    <div class="card-body pass-info">
+                                        <div class="mb-4 d-flex align-items-center justify-content-between">
+                                            <h5 class="fw-bold mb-0 me-4">
+                                                <span class="d-block mb-2">Account Details:</span>
+                                            </h5>
+                                        </div>
+                                        <div class="row mb-4 align-items-center">
+                                            <div class="col-lg-4">
+                                                <label for="salary" class="fw-semibold">Monthly Salary</label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-text"><i class="feather-dollar-sign"></i></div>
+                                                    <input type="number" step="any" class="form-control" id="salary" name="salary"
+                                                        placeholder="Enter Employee Salary" value="{{ $employee->salary }}" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4 align-items-center">
+                                            <div class="col-lg-4">
+                                                <label for="salary" class="fw-semibold">Comission Percentage</label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-text"><i class="feather feather-star"></i></div>
+                                                    <input type="number" step="any" class="form-control" id="comission" name="comission"
+                                                        placeholder="Enter Employee Comission %" value="{{ $employee->comission }}"  >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
 
                                     <hr class="my-0">
 
