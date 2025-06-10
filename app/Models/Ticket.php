@@ -18,7 +18,7 @@ class Ticket extends Model
         'reason'
     ];
 
-    public function employee(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
 }
