@@ -55,7 +55,7 @@
                         <div class="card stretch stretch-full">
                             <div class="card-body p-0">
                                 <div class="table-responsive">
-                                    <table class="table table-hover" id="ticketList">
+                                    <table class="table table-hover datatable" id="ticketList">
                                         <thead>
                                             <tr>
                                                 <th>Ticket By</th>

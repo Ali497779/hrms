@@ -678,18 +678,20 @@
                         </ul>
                     </li>
                 @endif
-                @if($admin)
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-layout"></i></span>
-                            <span class="nxl-mtext">Payroll</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="{{ route('payroll.list') }}">Payroll Lists</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="{{ route('payroll.create') }}">Generate Payroll</a></li>
+                <li class="nxl-item nxl-hasmenu">
+                    <a href="javascript:void(0);" class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-layout"></i></span>
+                        <span class="nxl-mtext">Payroll</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                    </a>
+                    <ul class="nxl-submenu">
+                        @if($admin)
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('payroll.list') }}">Payroll Lists</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('payroll.create') }}">Generate Payroll</a></li>
+                        @else
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('payroll.check') }}">Check My Payroll</a></li>
+                        @endif
                         </ul>
                     </li>
-                @endif
                 <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-layout"></i></span>

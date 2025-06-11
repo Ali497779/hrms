@@ -7,6 +7,7 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
@@ -108,15 +109,11 @@ Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'pr
     Route::post('/update-status/{id}', [TicketController::class, 'updateStatus']);
 });
 
-Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'payroll', 'as' => 'payroll.'], function () {
-    Route::get('/', [LeadController::class, 'index'])->name('list'); 
-    Route::get('/create', [LeadController::class, 'create'])->name('create'); 
-    Route::post('/store', [LeadController::class, 'store'])->name('store'); 
-    Route::get('/edit/{id}', [LeadController::class, 'edit'])->name('edit'); 
-    Route::put('/update/{id}', [LeadController::class, 'update'])->name('update');
-    Route::get('/view/{id}', [LeadController::class, 'show'])->name('view'); 
-    Route::get('/delete/{id}', [LeadController::class, 'delete'])->name('delete'); 
-    Route::post('/update-status/{id}', [LeadController::class, 'updateStatus']);
+Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'prefix' => 'payroll', 'as' => 'payroll.'], function () {
+    Route::get('/', [PayrollController::class, 'index'])->name('list')->middleware('auth:admin'); 
+    Route::get('/create', [PayrollController::class, 'create'])->name('create')->middleware('auth:admin'); 
+    Route::post('/store', [PayrollController::class, 'store'])->name('store')->middleware('auth:admin'); 
+    Route::get('/check', [PayrollController::class, 'create'])->name('check'); 
 });
 
 
