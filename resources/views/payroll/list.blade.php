@@ -58,43 +58,33 @@
                                     <table class="table table-hover datatable" id="PayrollList">
                                         <thead>
                                             <tr>
-                                                <th>User</th>
                                                 <th>Month</th>
-                                                <th>Salary</th>
-                                                <th>Comission</th>
-                                                <th>Deduction</th>
-                                                <th>Total Pay</th>
-                                                <th>Generate At</th>
+                                                <th>Created At</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($payrolls as $payroll)
-                                            <tr class="single-item">
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        @php
-                                                            $randomColor = substr(str_shuffle('ABCDEF0123456789'), 0, 6);
-                                                        @endphp
-                                                        <div class="avatar-image avatar-md me-2">
-                                                            <img src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode($Payroll->user->name) }}"
-                                                                alt="user-image" class="img-fluid user-avtar">
+                                                <tr>
+                                                    <td>{{ \Carbon\Carbon::parse($payroll->month)->format('F Y') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($payroll->latest_generated_at)->format('d M Y h:i A') }}</td>
+                                                    <td>
+                                                        <div class="hstack gap-2">
+                                                            <form action="{{ route('payroll.view') }}" class="avatar-text avatar-md" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="month" value="{{ $payroll->month }}">
+                                                                <button type="submit" class="btn btn-transparent">
+                                                                    <i class="feather feather-eye"></i>
+                                                                </button>
+                                                            </form>
+                                                            <a href="{{ asset('storage/payroll/Payroll' . \Carbon\Carbon::parse($payroll->month)->format('m-Y') . '.csv') }}" 
+                                                            class="avatar-text avatar-md" 
+                                                            download>
+                                                                <i class="feather-save"></i>
+                                                            </a>
                                                         </div>
-                                                        <div>
-                                                            <span class="text-truncate-1-line">{{ $payroll->user->name }}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td style="max-width: 200px; height: 80px;">
-                                                    <div style="max-height: 80px; overflow-y: auto; white-space: normal;">
-                                                        {{ $payroll->reason }}
-                                                    </div>
-                                                </td>
-                                                <td>{{ \Carbon\Carbon::parse($payroll->date)->format('d-M-Y') }}</td>
-                                                <td></td>
-                                                <td>{{ \Carbon\Carbon::parse($payroll->updated_at)->format('d-M-Y h:i A') }}</td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>

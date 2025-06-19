@@ -113,7 +113,8 @@ Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'pr
     Route::get('/', [PayrollController::class, 'index'])->name('list')->middleware('auth:admin'); 
     Route::get('/create', [PayrollController::class, 'create'])->name('create')->middleware('auth:admin'); 
     Route::post('/store', [PayrollController::class, 'store'])->name('store')->middleware('auth:admin'); 
-    Route::get('/check', [PayrollController::class, 'create'])->name('check'); 
+    Route::post('/view', [PayrollController::class, 'show'])->name('view')->middleware('auth:admin'); 
+    Route::get('/check', [PayrollController::class, 'check'])->name('check'); 
 });
 
 

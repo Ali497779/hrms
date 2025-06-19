@@ -48,7 +48,7 @@
                                                         <select id="tragetAssigned2" class="form-select" name="members[]" multiple required>
                                                             <option value="all">Select All</option> <!-- Select All Option -->
                                                             @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}" data-user="{{ $user->id }}">{{ $user->name }}</option>
+                                                                <option value="{{ $user->id }}" data-user="{{ $user->user->id }}">{{ $user->user->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -58,19 +58,18 @@
                                         <div class="card-body additional-info">
                                             <div class="row mb-4 align-items-center">
                                                 <div class="col-lg-4">
-                                                    <label for="dateinput" class="fw-semibold">Date: </label>
+                                                    <label for="monthonly" class="fw-semibold">Date: </label>
                                                 </div>
                                                 <div class="col-lg-8">
                                                     <div class="input-group">
                                                         <div class="input-group-text"><i class="feather-calendar"></i></div>
-                                                        <input class="form-control dateinput" id="dateinput" name="date"
-                                                            placeholder="Date Of Ticket" >
+                                                        <input class="form-control" type="month" id="monthonly" name="date" placeholder="Month Of Payroll">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-footer text-end">
-                                            <button type="submit" class="btn btn-primary">Create Ticket</button>
+                                            <button type="submit" class="btn btn-primary">Generate Payroll</button>
                                         </div>
                                     </div>
                                 </div>
