@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PublicHoliday extends Model
+class Dollar extends Model
 {
     use HasFactory;
-    protected $table = 'public_holidays';
+    protected $table = 'dollars';
     protected $fillable = [
-        'name',
-        'date'
+        'rate'
     ];
 }

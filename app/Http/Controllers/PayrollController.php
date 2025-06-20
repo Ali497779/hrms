@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\User;
+use App\Models\Dollar;
 use App\Models\Payroll;
 use App\Models\Employee;
 use App\Models\Attendance;
@@ -48,40 +49,36 @@ class PayrollController extends Controller
 
     public function store(Request $request)
     {
-        $date = $request->date; // Format: "2025-06"
+        $date = $request->date; // "2025-06"
         [$year, $month] = explode('-', $date);
-        $usdToPkrRate = 278;
+        $usdToPkrRate = (int) Dollar::latest()->first()->rate;
         $reportData = [];
 
+        // Get all public holidays for the month
         $holidays = PublicHoliday::whereYear('date', $year)
             ->whereMonth('date', $month)
             ->pluck('date')
-            ->map(fn ($d) => Carbon::parse($d));
+            ->map(fn ($date) => Carbon::parse($date)->toDateString())
+            ->toArray();
 
         foreach ($request->members as $member) {
             $employee = Employee::with('user')->findOrFail($member);
+            
+            // Per day salary (fixed 30 days as per requirement)
             $perDaySalary = $employee->salary / 30;
 
-            $start = Carbon::create($year, $month, 1);
-            $end = $start->copy()->endOfMonth();
+            // Get attendance records
+            $attendanceRecords = Attendance::where('user_id', $employee->user_id)
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->get();
 
-            $validDates = [];
-            for ($dateIter = $start->copy(); $dateIter <= $end; $dateIter->addDay()) {
-                if (!$dateIter->isWeekend() && !$holidays->contains(fn ($h) => $h->isSameDay($dateIter))) {
-                    $validDates[] = $dateIter->toDateString();
-                }
-            }
+            // Count ONLY explicit present/absent days
+            $presentDays = $attendanceRecords->where('status', 'Present')->count();
+            $absentDays = $attendanceRecords->where('status', 'Absent')->count();
+            $holidayDays = count($holidays);
 
-            $presentDays = Attendance::where('user_id', $employee->user_id)
-                ->where('status', 'Present')
-                ->whereIn('date', $validDates)
-                ->count();
-
-            $absentDays = Attendance::where('user_id', $employee->user_id)
-                ->where('status', 'Absent')
-                ->whereIn('date', $validDates)
-                ->count();
-
+            // Calculate commission
             $sales = Sale::where('createdby', $employee->user_id)
                 ->whereYear('created_at', $year)
                 ->whereMonth('created_at', $month)
@@ -90,63 +87,55 @@ class PayrollController extends Controller
             $commissionUSD = $sales->sum(fn ($sale) => ($employee->comission / 100) * $sale->total_amount);
             $commissionPKR = $commissionUSD * $usdToPkrRate;
 
+            // Salary calculations
             $earnedSalary = $presentDays * $perDaySalary;
+            $holidayPay = $holidayDays * $perDaySalary;
             $deduction = $absentDays * $perDaySalary;
-            $finalSalary = $earnedSalary + $commissionPKR - $deduction;
+            $totalPay = $earnedSalary + $holidayPay + $commissionPKR - $deduction;
 
+            // Create payroll record
             Payroll::create([
                 'user_id' => $employee->user_id,
                 'month' => "$year-$month",
-                'base_salary' => round($earnedSalary, 2),
+                'base_salary' => round($earnedSalary + $holidayPay, 2),
                 'commission' => round($commissionPKR, 2),
                 'deduction' => round($deduction, 2),
-                'total_pay' => round($finalSalary, 2),
+                'total_pay' => round($totalPay, 2),
                 'generated_at' => now(),
             ]);
 
+            // Report data
             $reportData[] = [
                 'Employee Name' => $employee->user->name ?? 'N/A',
+                'Monthly Salary' => round($employee->salary, 2),
                 'Per Day Salary' => round($perDaySalary, 2),
-                'Total Days' => count($validDates),
-                'Basic Salary' => round($earnedSalary, 2),
+                'Present Days' => $presentDays,
+                'Absent Days' => $absentDays,
+                'Holidays' => $holidayDays,
+                'Base Salary' => round($earnedSalary, 2),
+                'Holiday Pay' => round($holidayPay, 2),
                 'Commission Amount' => round($commissionPKR, 2),
                 'Deduction' => round($deduction, 2),
-                'Total Payroll Amount' => round($finalSalary, 2),
+                'Total Payroll Amount' => round($totalPay, 2),
             ];
         }
 
-        if (empty($reportData)) {
-            return back()->with('error', 'No payroll data found.');
-        }
-
+        // Generate CSV (same as before)
         $filename = "Payroll{$month}-{$year}.csv";
-        $csvData = '';
-
-        // Add UTF-8 BOM
-        $csvData .= "\xEF\xBB\xBF";
-
-        // Generate CSV content
-        $csvData .= implode(',', array_keys($reportData[0])) . "\n";
+        $csvData = "\xEF\xBB\xBF" . implode(',', array_keys($reportData[0])) . "\n";
+        
         foreach ($reportData as $row) {
             $csvData .= implode(',', array_map(fn ($v) => '"' . str_replace('"', '""', $v) . '"', $row)) . "\n";
         }
 
-        // Save to storage/app/public/payroll/
         Storage::disk('public')->put("payroll/$filename", $csvData);
         
-
-        // Download file
-        $fileUrl = asset("storage/payroll/$filename");
-
         return view('payroll.download', [
-            'fileUrl' => $fileUrl,
+            'fileUrl' => asset("storage/payroll/$filename"),
             'redirectUrl' => route('payroll.list'),
             'message' => 'Payroll generated successfully!'
         ]);
-
-        
     }
-
 
     public function show(Request $request)
     {

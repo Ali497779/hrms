@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Employee;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
+use App\Models\PublicHoliday;
 use App\Mail\EmployeeWelcomeEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -111,6 +113,25 @@ class EmployeeController extends Controller
         $employee = Employee::with('user')->findOrFail($id);
         // Pass employee data to the edit view
         return view('employee.edit', compact('employee'));
+    }
+
+    public function calender($id, $month = null, $year = null)
+    {
+        $employee = Employee::with('user')->findOrFail($id);
+
+        $currentMonth = $month ?? now()->month;
+        $currentYear = $year ?? now()->year;
+
+        $attendances = Attendance::where('user_id', $employee->user_id)
+            ->whereMonth('date', $currentMonth)
+            ->whereYear('date', $currentYear)
+            ->get();
+
+        $holidays = PublicHoliday::whereMonth('date', $currentMonth)
+            ->whereYear('date', $currentYear)
+            ->get();
+
+        return view('employee.calender', compact('employee', 'attendances', 'holidays', 'currentMonth', 'currentYear'));
     }
 
 

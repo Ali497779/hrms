@@ -6,12 +6,14 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DollarController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\PublicHolidayController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -41,6 +43,7 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'employee', 'as'
     Route::get('/create', [EmployeeController::class, 'create'])->name('create'); 
     Route::post('/store', [EmployeeController::class, 'store'])->name('store'); 
     Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('edit'); 
+    Route::get('/employee/calender/{id}/{month?}/{year?}', [EmployeeController::class, 'calender'])->name('calender');
     Route::put('/update/{id}', [EmployeeController::class, 'update'])->name('update');
     Route::get('/view/{id}', [EmployeeController::class, 'detail'])->name('view'); 
     Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('delete'); 
@@ -115,6 +118,21 @@ Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'pr
     Route::post('/store', [PayrollController::class, 'store'])->name('store')->middleware('auth:admin'); 
     Route::post('/view', [PayrollController::class, 'show'])->name('view')->middleware('auth:admin'); 
     Route::get('/check', [PayrollController::class, 'check'])->name('check'); 
+});
+
+Route::group(['middleware' => ['auth:admin'], 'prefix' => 'holiday', 'as' => 'holiday.'], function () {
+    Route::get('/', [PublicHolidayController::class, 'index'])->name('list')->middleware('auth:admin'); 
+    Route::get('/create', [PublicHolidayController::class, 'create'])->name('create')->middleware('auth:admin'); 
+    Route::post('/store', [PublicHolidayController::class, 'store'])->name('store')->middleware('auth:admin'); 
+    Route::get('/edit/{id}', [PublicHolidayController::class, 'edit'])->name('edit')->middleware('auth:admin'); 
+    Route::post('/delete/{id}', [PublicHolidayController::class, 'delete'])->name('delete'); 
+    Route::put('/update/{id}', [PublicHolidayController::class, 'update'])->name('update');
+
+});
+
+Route::group(['middleware' => ['auth:admin'], 'prefix' => 'setting', 'as' => 'setting.'], function () {
+    Route::get('/dollar', [DollarController::class, 'index'])->name('dollar');
+    Route::post('/dollar/store', [DollarController::class, 'store'])->name('dollar.store');
 });
 
 

@@ -690,8 +690,20 @@
                         @else
                         <li class="nxl-item"><a class="nxl-link" href="{{ route('payroll.check') }}">Check My Payroll</a></li>
                         @endif
-                        </ul>
-                    </li>
+                    </ul>
+                </li>
+                @if($admin)
+                <li class="nxl-item nxl-hasmenu">
+                    <a href="javascript:void(0);" class="nxl-link">
+                        <span class="nxl-micon"><i class="fas fa-umbrella-beach"></i> </span>
+                        <span class="nxl-mtext">Holidays</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                    </a>
+                    <ul class="nxl-submenu">
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('holiday.list') }}">Holidays Lists</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('holiday.create') }}">Create Holiday</a></li>
+                    </ul>
+                </li>
+                @endif
                 <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-layout"></i></span>
@@ -702,6 +714,17 @@
                         <li class="nxl-item"><a class="nxl-link" href="{{ route('ticket.create') }}">Create Ticket</a></li>
                     </ul>
                 </li>
+                @if($admin)
+                <li class="nxl-item nxl-hasmenu">
+                    <a href="javascript:void(0);" class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-settings"></i> </span>
+                        <span class="nxl-mtext">Settings</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                    </a>
+                    <ul class="nxl-submenu">
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('setting.dollar') }}">Dollar Rate</a></li>
+                    </ul>
+                </li>
+                @endif
             </ul>
         </div>
     </div>

@@ -122,6 +122,9 @@
                                                             <a href="{{route('employee.view', $employee->id)}}" class="avatar-text avatar-md">
                                                                 <i class="feather feather-eye"></i>
                                                             </a>
+                                                            <a href="{{ route('employee.calender', ['id' => $employee->id, 'month' => now()->month, 'year' => now()->year]) }}" class="avatar-text avatar-md">
+                                                                <i class="feather feather-calendar"></i>
+                                                            </a>
                                                             <div class="dropdown">
                                                                 <a href="javascript:void(0)" class="avatar-text avatar-md"
                                                                     data-bs-toggle="dropdown" data-bs-offset="0,21">
