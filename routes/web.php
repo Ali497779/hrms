@@ -14,6 +14,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PublicHolidayController;
+use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -34,6 +35,10 @@ Route::group(['middleware' => ['auth:developer'], 'prefix' => 'developer', 'as' 
 
 // Developer routes
 Route::group(['middleware' => ['auth:sales'], 'prefix' => 'sales', 'as' => 'sales.'], function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+});
+
+Route::group(['middleware' => ['auth:projectmanager'], 'prefix' => 'pm', 'as' => 'pm.'], function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
@@ -86,6 +91,7 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'sale', 'as' => 
     Route::get('/delete/{id}', [SaleController::class, 'delete'])->name('delete'); 
     Route::post('/update-status/{id}', [SaleController::class, 'updateStatus']);
     Route::post('/send_invoice', [SaleController::class, 'SendInvoice'])->name('send_invoice');
+    Route::get('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 });
 
 Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'lead', 'as' => 'lead.'], function () {
@@ -118,6 +124,7 @@ Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'pr
     Route::post('/store', [PayrollController::class, 'store'])->name('store')->middleware('auth:admin'); 
     Route::post('/view', [PayrollController::class, 'show'])->name('view')->middleware('auth:admin'); 
     Route::get('/check', [PayrollController::class, 'check'])->name('check'); 
+    Route::post('/check', [PayrollController::class, 'checkpost'])->name('check'); 
 });
 
 Route::group(['middleware' => ['auth:admin'], 'prefix' => 'holiday', 'as' => 'holiday.'], function () {

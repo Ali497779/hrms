@@ -29,6 +29,7 @@ return new class extends Migration
             $table->date('issue_date');
             $table->string('invoice_stripe_id')->nullable();
             $table->string('invoice_payment_link')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

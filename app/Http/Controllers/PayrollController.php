@@ -79,7 +79,7 @@ class PayrollController extends Controller
             $holidayDays = count($holidays);
 
             // Calculate commission
-            $sales = Sale::where('createdby', $employee->user_id)
+            $sales = Sale::where(['createdby'=> $employee->user_id, 'status' => 'paid'])
                 ->whereYear('created_at', $year)
                 ->whereMonth('created_at', $month)
                 ->get();
@@ -134,6 +134,71 @@ class PayrollController extends Controller
             'fileUrl' => asset("storage/payroll/$filename"),
             'redirectUrl' => route('payroll.list'),
             'message' => 'Payroll generated successfully!'
+        ]);
+    }
+
+    public function check(){
+        return view('payroll.check');
+    }
+
+    public function checkpost(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date_format:Y-m',
+        ]);
+
+        [$year, $month] = explode('-', $request->date);
+
+        $userId = Auth::id();
+        $employee = Employee::where('user_id', $userId)->first();
+
+        if (!$employee) {
+            return response()->json(['error' => 'Employee not found.'], 404);
+        }
+
+        $perDaySalary = $employee->salary / 30;
+        $usdToPkrRate = (int) Dollar::latest()->first()?->rate ?? 278;
+
+        $holidays = PublicHoliday::whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->pluck('date')
+            ->map(fn ($date) => Carbon::parse($date)->toDateString())
+            ->toArray();
+
+        $attendanceRecords = Attendance::where('user_id', $userId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->get();
+
+        $presentDays = $attendanceRecords->where('status', 'Present')->count();
+        $absentDays = $attendanceRecords->where('status', 'Absent')->count();
+        $holidayDays = count($holidays);
+
+        $sales = Sale::where('createdby', $userId)
+            ->where('status', 'paid')
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->get();
+
+        $commissionUSD = $sales->sum(fn ($sale) => ($employee->comission / 100) * $sale->total_amount);
+        $commissionPKR = $commissionUSD * $usdToPkrRate;
+
+        $earnedSalary = $presentDays * $perDaySalary;
+        $holidayPay = $holidayDays * $perDaySalary;
+        $deduction = $absentDays * $perDaySalary;
+        $totalPay = $earnedSalary + $holidayPay + $commissionPKR - $deduction;
+
+        return response()->json([
+            'date' => Carbon::create($year, $month)->format('F Y'),
+            'present_days' => $presentDays,
+            'absent_days' => $absentDays,
+            'holiday_days' => $holidayDays,
+            'per_day_salary' => round($perDaySalary),
+            'earned_salary' => round($earnedSalary),
+            'holiday_pay' => round($holidayPay),
+            'deduction' => round($deduction),
+            'commission' => round($commissionPKR),
+            'total_pay' => round($totalPay),
         ]);
     }
 

@@ -27,7 +27,7 @@
             <div class="card mt-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Attendance Calendar - {{ \Carbon\Carbon::createFromDate($currentYear, $currentMonth, 1)->format('F Y') }}</h5>
-                    <div>
+                    <div class="d-flex">
                         <a href="{{ route('employee.calender', [$employee->id, $currentMonth == 1 ? 12 : $currentMonth - 1, $currentMonth == 1 ? $currentYear - 1 : $currentYear]) }}" class="btn btn-sm btn-outline-secondary me-2">Prev</a>
                         <a href="{{ route('employee.calender', [$employee->id, $currentMonth == 12 ? 1 : $currentMonth + 1, $currentMonth == 12 ? $currentYear + 1 : $currentYear]) }}" class="btn btn-sm btn-outline-secondary">Next</a>
                     </div>

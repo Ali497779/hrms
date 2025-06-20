@@ -13,10 +13,7 @@ class UserRolesSeeder extends Seeder
         // Array of roles and their respective boolean column
         $roles = [
             'admin' => 'is_admin',
-            'customer' => 'is_customer',
-            'sales' => 'is_sales',
-            'projectmanager' => 'is_projectmanager',
-            'developer' => 'is_developer',
+            
         ];
 
         foreach ($roles as $role => $column) {

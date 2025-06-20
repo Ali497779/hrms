@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Employee;
+use App\Models\Attendance;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -63,6 +64,10 @@ class User extends Authenticatable
     public function employee()
     {
         return $this->hasOne(Employee::class);
+    }
+
+    public function attendances(){
+        return $this->hasMany(Attendance::class,'user_id', 'id');
     }
 
 }
