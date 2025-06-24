@@ -54,6 +54,7 @@ class EmployeeController extends Controller
                 $request->designation => true,
             ]);
 
+
             // Step 3: Handle avatar upload to public/assets/images/employee/
             $avatarName = null;
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
@@ -66,7 +67,8 @@ class EmployeeController extends Controller
             $designationMap = [
                 'is_sales' => 'Sales',
                 'is_developer' => 'Developer',
-                'is_projectmanager' => 'Project Manager'
+                'is_projectmanager' => 'Project Manager',
+                'is_designer' => 'Designer'
             ];
 
             // Step 5: Prepare employee data

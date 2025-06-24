@@ -131,6 +131,7 @@
                                                             <option value="is_sales">Sales</option>
                                                             <option value="is_developer">Developer</option>
                                                             <option value="is_projectmanager">Project Manager</option>
+                                                            <option value="is_designer">Designer</option>
                                                         </select>
                                                     </div>
                                                 </div>

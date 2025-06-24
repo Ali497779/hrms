@@ -49,6 +49,10 @@ class AuthController extends Controller
             Auth::guard('developer')->login($user);
             session(['guard' => 'developer']);
             return redirect()->route('developer.dashboard');
+        } elseif ($user->is_designer) {
+            Auth::guard('designer')->login($user);
+            session(['guard' => 'designer']);
+            return redirect()->route('designer.dashboard');
         }
 
         // If no valid role

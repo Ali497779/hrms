@@ -30,6 +30,7 @@ class User extends Authenticatable
         'is_sales',
         'is_projectmanager',
         'is_developer',
+        'is_designer',
     ];
 
     /**
@@ -58,6 +59,7 @@ class User extends Authenticatable
         if ($this->is_sales) return 'sales';
         if ($this->is_projectmanager) return 'projectmanager';
         if ($this->is_developer) return 'developer';
+        if ($this->is_designer) return 'designer';
         return 'user';
     }
 

@@ -468,27 +468,38 @@
                                             $is_admin = $admin;
                                             $is_sales = $sales;
                                             $is_developer = $developer;
+                                            $is_designer = $designer;
                                             $is_customer = $customer;
+                                            $route = '';
 
                                             switch (true) {
                                                 case $is_sales:
+                                                    $route =   'sales'; 
                                                     echo 'Sales';
                                                     break;
 
                                                 case $is_developer:
+                                                    $route =   'developer'; 
                                                     echo 'Developer';
+                                                    break;
+                                                case $is_designer:
+                                                    $route =   'designer'; 
+                                                    echo 'Designer';
                                                     break;
 
                                                 case $is_admin:
+                                                    $route =   'admin'; 
                                                     echo 'Admin';
                                                     break;
 
                                                 case $is_customer:
+                                                    $route =   'customer'; 
                                                     echo 'Customer';
                                                     break;
 
                                                 default:
                                                     echo 'Unknown';
+                                                    $route =   'unknown'; 
                                                     break;
                                             }
                                         ?>
@@ -584,17 +595,19 @@
                     <label>Navigation</label>
                 </li>
                 <li class="nxl-item nxl-hasmenu">
-                    <a href="javascript:void(0);" class="nxl-link">
+                    <a href="{{ route($route.'.dashboard') }}" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-airplay"></i></span>
-                        <span class="nxl-mtext">Dashboards</span><span class="nxl-arrow"><i
-                                class="feather-chevron-right"></i></span>
+                        <span class="nxl-mtext">Dashboards</span>
+                        {{-- <span class="nxl-arrow"><i
+                                class="feather-chevron-right"></i>
+                            </span> --}}
                     </a>
-                    <ul class="nxl-submenu">
+                    {{-- <ul class="nxl-submenu">
                         <li class="nxl-item"><a class="nxl-link" href="index.php">CRM</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="analytics.php">Analytics</a></li>
-                    </ul>
+                    </ul> --}}
                 </li>
-                <li class="nxl-item nxl-hasmenu">
+                {{-- <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
                         <span class="nxl-micon"><i class="feather-cast"></i></span>
                         <span class="nxl-mtext">Reports</span><span class="nxl-arrow"><i
@@ -607,13 +620,13 @@
                         <li class="nxl-item"><a class="nxl-link" href="reports-sale.php">Sales Report</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="reports-leads.php">Leads Report</a></li>
                         @endif
-                        @if($admin || $developer || $projectmanager)
+                        @if($admin || $developer || $projectmanager || $designer)
                         <li class="nxl-item"><a class="nxl-link" href="reports-project.php">Project Report</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="reports-timesheets.php">Timesheets Report</a>
                         @endif
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 @if($admin)
                 <li class="nxl-item nxl-hasmenu">
                     <a href="javascript:void(0);" class="nxl-link">
@@ -640,7 +653,7 @@
                     </ul>
                 </li>
                 @endif
-                @if($admin || $developer || $sales || $projectmanager)
+                @if($admin || $developer || $sales || $projectmanager || $designer)
                 <li class="nxl-item nxl-hasmenu">
                     <a  class="nxl-link">
                         <span class="nxl-micon"><i class="feather-briefcase"></i></span>

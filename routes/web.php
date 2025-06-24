@@ -42,6 +42,11 @@ Route::group(['middleware' => ['auth:projectmanager'], 'prefix' => 'pm', 'as' =>
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
+
+Route::group(['middleware' => ['auth:designer'], 'prefix' => 'designer', 'as' => 'designer.'], function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+});
+
 // Employee routes (protected by admin auth)
 Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'employee', 'as' => 'employee.'], function () {
     Route::get('/', [EmployeeController::class, 'index'])->name('list'); 
@@ -64,12 +69,12 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'customer', 'as'
     Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('delete'); 
 });
 
-Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'prefix' => 'attendance', 'as' => 'attendance.'], function () {
+Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer'], 'prefix' => 'attendance', 'as' => 'attendance.'], function () {
     Route::post('/check-in', [AttendanceController::class, 'checkIn'])->name('check-in');
     Route::post('/check-out', [AttendanceController::class, 'checkout'])->name('check-out');
 });
 
-Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'project', 'as' => 'project.'], function () {
+Route::group(['middleware' => ['auth:sales,admin,designer'], 'prefix' => 'project', 'as' => 'project.'], function () {
     Route::get('/', [ProjectController::class, 'index'])->name('list'); 
     Route::get('/create', [ProjectController::class, 'create'])->name('create'); 
     Route::post('/store', [ProjectController::class, 'store'])->name('store'); 
@@ -105,7 +110,7 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'lead', 'as' => 
     Route::post('/update-status/{id}', [LeadController::class, 'updateStatus']);
 });
 
-Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'prefix' => 'ticket', 'as' => 'ticket.'], function () {
+Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer'], 'prefix' => 'ticket', 'as' => 'ticket.'], function () {
     Route::get('/', [TicketController::class, 'index'])->name('list'); 
     Route::get('/create', [TicketController::class, 'create'])->name('create'); 
     Route::post('/store', [TicketController::class, 'store'])->name('store'); 
@@ -118,7 +123,7 @@ Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'pr
     Route::post('/update-status/{id}', [TicketController::class, 'updateStatus']);
 });
 
-Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager'], 'prefix' => 'payroll', 'as' => 'payroll.'], function () {
+Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer'], 'prefix' => 'payroll', 'as' => 'payroll.'], function () {
     Route::get('/', [PayrollController::class, 'index'])->name('list')->middleware('auth:admin'); 
     Route::get('/create', [PayrollController::class, 'create'])->name('create')->middleware('auth:admin'); 
     Route::post('/store', [PayrollController::class, 'store'])->name('store')->middleware('auth:admin'); 

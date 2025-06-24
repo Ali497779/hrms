@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
                 'sales' => $currentGuard === 'sales',
                 'projectmanager' => $currentGuard === 'projectmanager',
                 'customer' => $currentGuard === 'customer',
+                'designer' => $currentGuard === 'designer',
             ]);
         });
     }
