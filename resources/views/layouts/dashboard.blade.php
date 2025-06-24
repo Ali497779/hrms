@@ -47,6 +47,8 @@
             <script src="https:oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="https:oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+    <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
 <body>
@@ -366,82 +368,44 @@
                         <a class="nxl-head-link me-3" data-bs-toggle="dropdown" href="#" role="button"
                             data-bs-auto-close="outside">
                             <i class="feather-bell"></i>
-                            <span class="badge bg-danger nxl-h-badge">3</span>
+                            <span class="badge bg-danger nxl-h-badge" id="notification-counter">{{ auth()->user()->unreadNotifications->count() }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
                             <div class="d-flex justify-content-between align-items-center notifications-head">
                                 <h6 class="fw-bold text-dark mb-0">Notifications</h6>
-                                <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto"
+                                <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto mark-all-read"
                                     data-bs-toggle="tooltip" title="Make as Read">
                                     <i class="feather-check"></i>
                                     <span>Make as Read</span>
                                 </a>
                             </div>
-                            <div class="notifications-item">
-                                <img src="{{asset('assets/images/avatar/2.png')}}" alt="" class="rounded me-3 border" />
-                                <div class="notifications-desc">
-                                    <a href="javascript:void(0);" class="font-body text-truncate-2-line"> <span
-                                            class="fw-semibold text-dark">Malanie Hanvey</span> We should talk about
-                                        that at lunch!</a>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="notifications-date text-muted border-bottom border-bottom-dashed">2
-                                            minutes ago</div>
-                                        <div class="d-flex align-items-center float-end gap-2">
-                                            <a href="javascript:void(0);"
-                                                class="d-block wd-8 ht-8 rounded-circle bg-gray-300"
-                                                data-bs-toggle="tooltip" title="Make as Read"></a>
-                                            <a href="javascript:void(0);" class="text-danger" data-bs-toggle="tooltip"
-                                                title="Remove">
-                                                <i class="feather-x fs-12"></i>
+                            <div id="notifications-list">
+                                @foreach(auth()->user()->unreadNotifications->take(5) as $notification)
+                                    <div class="notifications-item">
+                                        <img src="{{ asset('assets/images/avatar/2.png') }}" alt="" class="rounded me-3 border" />
+                                        <div class="notifications-desc">
+                                            <a href="javascript:void(0);" class="font-body text-truncate-2-line">
+                                                {{ $notification->data['message'] }}
                                             </a>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="notifications-date text-muted border-bottom border-bottom-dashed">
+                                                    {{ $notification->created_at->diffForHumans() }}
+                                                </div>
+                                                <div class="d-flex align-items-center float-end gap-2">
+                                                    <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
+                                                        data-id="{{ $notification->id }}" data-bs-toggle="tooltip" title="Make as Read"></a>
+                                                    <a href="javascript:void(0);" class="text-danger delete-notification"
+                                                        data-id="{{ $notification->id }}" data-bs-toggle="tooltip" title="Remove">
+                                                        <i class="feather-x fs-12"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="notifications-item">
-                                <img src="{{asset('assets/images/avatar/3.png')}}" alt="" class="rounded me-3 border" />
-                                <div class="notifications-desc">
-                                    <a href="javascript:void(0);" class="font-body text-truncate-2-line"> <span
-                                            class="fw-semibold text-dark">Valentine Maton</span> You can download the
-                                        latest invoices now.</a>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="notifications-date text-muted border-bottom border-bottom-dashed">36
-                                            minutes ago</div>
-                                        <div class="d-flex align-items-center float-end gap-2">
-                                            <a href="javascript:void(0);"
-                                                class="d-block wd-8 ht-8 rounded-circle bg-gray-300"
-                                                data-bs-toggle="tooltip" title="Make as Read"></a>
-                                            <a href="javascript:void(0);" class="text-danger" data-bs-toggle="tooltip"
-                                                title="Remove">
-                                                <i class="feather-x fs-12"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="notifications-item">
-                                <img src="{{asset('assets/images/avatar/3.png')}}" alt="" class="rounded me-3 border" />
-                                <div class="notifications-desc">
-                                    <a href="javascript:void(0);" class="font-body text-truncate-2-line"> <span
-                                            class="fw-semibold text-dark">Archie Cantones</span> Don't forget to pickup
-                                        Jeremy after school!</a>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="notifications-date text-muted border-bottom border-bottom-dashed">53
-                                            minutes ago</div>
-                                        <div class="d-flex align-items-center float-end gap-2">
-                                            <a href="javascript:void(0);"
-                                                class="d-block wd-8 ht-8 rounded-circle bg-gray-300"
-                                                data-bs-toggle="tooltip" title="Make as Read"></a>
-                                            <a href="javascript:void(0);" class="text-danger" data-bs-toggle="tooltip"
-                                                title="Remove">
-                                                <i class="feather-x fs-12"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <div class="text-center notifications-footer">
-                                <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Alls Notifications</a>
+                                <a href="{{ route('notifications.index') }}" class="fs-13 fw-semibold text-dark">All Notifications</a>
                             </div>
                         </div>
                     </div>
@@ -579,6 +543,77 @@
             <!--! [End] Header Right !-->
         </div>
     </header>
+
+    <script>
+        // Listen for notifications
+        window.Echo.private(`App.Models.User.{{ auth()->id() }}`)
+            .notification((notification) => {
+                // Update counter
+                let counter = $('#notification-counter');
+                counter.text(parseInt(counter.text()) + 1);
+                
+                // Prepend new notification
+                $('#notifications-list').prepend(`
+                    <div class="notifications-item">
+                        <img src="{{ asset('assets/images/avatar/2.png') }}" alt="" class="rounded me-3 border" />
+                        <div class="notifications-desc">
+                            <a href="javascript:void(0);" class="font-body text-truncate-2-line">
+                                ${notification.message}
+                            </a>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="notifications-date text-muted border-bottom border-bottom-dashed">
+                                    Just now
+                                </div>
+                                <div class="d-flex align-items-center float-end gap-2">
+                                    <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
+                                        data-id="${notification.id}" data-bs-toggle="tooltip" title="Make as Read"></a>
+                                    <a href="javascript:void(0);" class="text-danger delete-notification"
+                                        data-id="${notification.id}" data-bs-toggle="tooltip" title="Remove">
+                                        <i class="feather-x fs-12"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+
+        // Mark as read functionality
+        $(document).on('click', '.mark-as-read', function() {
+            let notificationId = $(this).data('id');
+            $.post('/notifications/' + notificationId + '/read', {
+                _token: '{{ csrf_token() }}'
+            }, function() {
+                // Update counter
+                let counter = $('#notification-counter');
+                counter.text(parseInt(counter.text()) - 1);
+            });
+        });
+
+        // Mark all as read
+        $(document).on('click', '.mark-all-read', function() {
+            $.post('/notifications/read-all', {
+                _token: '{{ csrf_token() }}'
+            }, function() {
+                $('#notification-counter').text('0');
+            });
+        });
+
+        // Delete notification
+        $(document).on('click', '.delete-notification', function() {
+            let notificationId = $(this).data('id');
+            $.post('/notifications/' + notificationId + '/delete', {
+                _token: '{{ csrf_token() }}'
+            }, function() {
+                // Update counter if notification was unread
+                let counter = $('#notification-counter');
+                let currentCount = parseInt(counter.text());
+                if (currentCount > 0) {
+                    counter.text(currentCount - 1);
+                }
+            });
+        });
+    </script>
 
     <nav class="nxl-navigation">
     <div class="navbar-wrapper">

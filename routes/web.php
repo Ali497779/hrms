@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -67,6 +68,25 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'customer', 'as'
     Route::put('/update/{id}', [CustomerController::class, 'update'])->name('update');
     Route::get('/view/{id}', [CustomerController::class, 'detail'])->name('view'); 
     Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('delete'); 
+});
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::post('/notifications/{id}/read', function($id) {
+        auth()->user()->notifications()->where('id', $id)->update(['read_at' => now()]);
+        return response()->json(['success' => true]);
+    });
+    
+    Route::post('/notifications/read-all', function() {
+        auth()->user()->unreadNotifications->markAsRead();
+        return response()->json(['success' => true]);
+    });
+    
+    Route::post('/notifications/{id}/delete', function($id) {
+        auth()->user()->notifications()->where('id', $id)->delete();
+        return response()->json(['success' => true]);
+    });
+    
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });
 
 Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer'], 'prefix' => 'attendance', 'as' => 'attendance.'], function () {

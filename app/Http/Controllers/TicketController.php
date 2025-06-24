@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Notifications\TicketCreatedNotification;
+use App\Notifications\TicketStatusNotification;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
@@ -42,11 +45,17 @@ class TicketController extends Controller
 
         $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
 
-        Ticket::create([
+        $ticket = Ticket::create([
             'user_id' => auth()->id(),
             'date' => $formattedDate,
             'reason' => $request->reason,
         ]);
+
+        // Notify admins
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new TicketCreatedNotification($ticket, auth()->user()));
+        }
 
         return back()->with('success', 'Ticket submitted successfully!');
     }
@@ -75,6 +84,9 @@ class TicketController extends Controller
             ]
         );
 
+        // Notify user
+        $ticket->user->notify(new TicketStatusNotification($ticket, 'Approved'));
+
         return redirect()->back()->with('success', 'Ticket approved and attendance marked as Present.');
     }
 
@@ -94,6 +106,9 @@ class TicketController extends Controller
                 'latitude' => null
             ]
         );
+
+        // Notify user
+        $ticket->user->notify(new TicketStatusNotification($ticket, 'Rejected'));
 
         return redirect()->back()->with('error', 'Ticket rejected and attendance marked as Absent.');
     }

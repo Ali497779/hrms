@@ -18,6 +18,10 @@ class Ticket extends Model
         'reason'
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
