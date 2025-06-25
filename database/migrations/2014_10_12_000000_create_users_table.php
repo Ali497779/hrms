@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('is_sales')->default(false);
             $table->boolean('is_projectmanager')->default(false);
             $table->boolean('is_developer')->default(false);
+            $table->boolean('is_designer')->default(false);
             $table->timestamps();
         });
     }
