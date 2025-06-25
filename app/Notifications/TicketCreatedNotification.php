@@ -33,6 +33,7 @@ class TicketCreatedNotification extends Notification
             'ticket_id' => $this->ticket->id,
             'date' => $this->ticket->date,
             'user_id' => $this->user->id,
+            'url' => route('ticket.list').'#ticket-'.$this->ticket->id,
         ];
     }
 
@@ -43,7 +44,15 @@ class TicketCreatedNotification extends Notification
             'ticket_id' => $this->ticket->id,
             'date' => $this->ticket->date,
             'user_id' => $this->user->id,
+            'url' => route('ticket.list').'#ticket-'.$this->ticket->id
         ]);
+    }
+
+     public function toArray($notifiable)
+    {
+        return [
+            'url' => route('ticket.list').'#ticket-'.$this->ticket->id,
+        ];
     }
 }
 

@@ -33,6 +33,7 @@ class TicketStatusNotification extends Notification
             'ticket_id' => $this->ticket->id,
             'status' => $this->status,
             'date' => $this->ticket->date, // Keep as raw date
+            'url' => route('ticket.list').'#ticket-'.$this->ticket->id
         ];
     }
 
@@ -43,6 +44,14 @@ class TicketStatusNotification extends Notification
             'ticket_id' => $this->ticket->id,
             'status' => $this->status,
             'date' => $this->ticket->date, // Keep as raw date
+            'url' => route('ticket.list').'#ticket-'.$this->ticket->id
         ]);
+    }
+
+     public function toArray($notifiable)
+    {
+        return [
+            'url' => route('ticket.list').'#ticket-'.$this->ticket->id,
+        ];
     }
 }

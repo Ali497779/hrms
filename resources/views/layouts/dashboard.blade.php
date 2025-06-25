@@ -339,7 +339,7 @@
                             <i class="feather-sun"></i>
                         </a>
                     </div>
-                    <div class="dropdown nxl-h-item">
+                    {{-- <div class="dropdown nxl-h-item">
                         <a href="javascript:void(0);" class="nxl-head-link me-0" data-bs-toggle="dropdown" role="button"
                             data-bs-auto-close="outside">
                             <i class="feather-clock"></i>
@@ -363,7 +363,7 @@
                                 <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Alls Timesheets</a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="dropdown nxl-h-item">
                         <a class="nxl-head-link me-3" data-bs-toggle="dropdown" href="#" role="button"
                             data-bs-auto-close="outside">
@@ -373,7 +373,7 @@
                         <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
                             <div class="d-flex justify-content-between align-items-center notifications-head">
                                 <h6 class="fw-bold text-dark mb-0">Notifications</h6>
-                                <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto mark-all-read"
+                                <a href="{{ $notification->data['url'] ?? '#' }}" class="fs-11 text-success text-end ms-auto mark-all-read"
                                     data-bs-toggle="tooltip" title="Make as Read">
                                     <i class="feather-check"></i>
                                     <span>Make as Read</span>
@@ -384,7 +384,7 @@
                                     <div class="notifications-item">
                                         <img src="{{ asset('assets/images/avatar/2.png') }}" alt="" class="rounded me-3 border" />
                                         <div class="notifications-desc">
-                                            <a href="javascript:void(0);" class="font-body text-truncate-2-line">
+                                            <a href="{{ $notification->data['url'] ?? '#' }}" class="font-body text-truncate-2-line">
                                                 {{ $notification->data['message'] }}
                                             </a>
                                             <div class="d-flex justify-content-between align-items-center">
@@ -392,9 +392,9 @@
                                                     {{ $notification->created_at->diffForHumans() }}
                                                 </div>
                                                 <div class="d-flex align-items-center float-end gap-2">
-                                                    <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
+                                                    <a href="{{ $notification->data['url'] ?? '#' }}" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
                                                         data-id="{{ $notification->id }}" data-bs-toggle="tooltip" title="Make as Read"></a>
-                                                    <a href="javascript:void(0);" class="text-danger delete-notification"
+                                                    <a href="{{ $notification->data['url'] ?? '#' }}" class="text-danger delete-notification"
                                                         data-id="{{ $notification->id }}" data-bs-toggle="tooltip" title="Remove">
                                                         <i class="feather-x fs-12"></i>
                                                     </a>
@@ -557,7 +557,7 @@
                     <div class="notifications-item">
                         <img src="{{ asset('assets/images/avatar/2.png') }}" alt="" class="rounded me-3 border" />
                         <div class="notifications-desc">
-                            <a href="javascript:void(0);" class="font-body text-truncate-2-line">
+                            <a href="${notification->data['url'] ?? '#' }" class="font-body text-truncate-2-line">
                                 ${notification.message}
                             </a>
                             <div class="d-flex justify-content-between align-items-center">
@@ -565,9 +565,9 @@
                                     Just now
                                 </div>
                                 <div class="d-flex align-items-center float-end gap-2">
-                                    <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
+                                    <a href="${notification->data['url'] ?? '#' }" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
                                         data-id="${notification.id}" data-bs-toggle="tooltip" title="Make as Read"></a>
-                                    <a href="javascript:void(0);" class="text-danger delete-notification"
+                                    <a href="${notification->data['url'] ?? '#' }" class="text-danger delete-notification"
                                         data-id="${notification.id}" data-bs-toggle="tooltip" title="Remove">
                                         <i class="feather-x fs-12"></i>
                                     </a>
