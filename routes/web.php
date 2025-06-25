@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'customer', 'as'
     Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('delete'); 
 });
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth:sales,admin,developer,projectmanager,designer'], function() {
     Route::post('/notifications/{id}/read', function($id) {
         auth()->user()->notifications()->where('id', $id)->update(['read_at' => now()]);
         return response()->json(['success' => true]);

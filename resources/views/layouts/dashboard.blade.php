@@ -373,10 +373,10 @@
                         <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
                             <div class="d-flex justify-content-between align-items-center notifications-head">
                                 <h6 class="fw-bold text-dark mb-0">Notifications</h6>
-                                <a href="{{ $notification->data['url'] ?? '#' }}" class="fs-11 text-success text-end ms-auto mark-all-read"
+                                <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto mark-all-read"
                                     data-bs-toggle="tooltip" title="Make as Read">
                                     <i class="feather-check"></i>
-                                    <span>Make as Read</span>
+                                    <span>Read All</span>
                                 </a>
                             </div>
                             <div id="notifications-list">
@@ -392,9 +392,9 @@
                                                     {{ $notification->created_at->diffForHumans() }}
                                                 </div>
                                                 <div class="d-flex align-items-center float-end gap-2">
-                                                    <a href="{{ $notification->data['url'] ?? '#' }}" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
+                                                    <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
                                                         data-id="{{ $notification->id }}" data-bs-toggle="tooltip" title="Make as Read"></a>
-                                                    <a href="{{ $notification->data['url'] ?? '#' }}" class="text-danger delete-notification"
+                                                    <a href="javascript:void(0);" class="text-danger delete-notification"
                                                         data-id="{{ $notification->id }}" data-bs-toggle="tooltip" title="Remove">
                                                         <i class="feather-x fs-12"></i>
                                                     </a>
@@ -545,29 +545,29 @@
     </header>
 
     <script>
-        // Listen for notifications
+        // Make sure this is after your Echo initialization
         window.Echo.private(`App.Models.User.{{ auth()->id() }}`)
             .notification((notification) => {
                 // Update counter
                 let counter = $('#notification-counter');
                 counter.text(parseInt(counter.text()) + 1);
                 
-                // Prepend new notification
+                // Prepend new notification - NOTE THE .data access
                 $('#notifications-list').prepend(`
-                    <div class="notifications-item">
+                    <div class="notifications-item" data-id="${notification.id}">
                         <img src="{{ asset('assets/images/avatar/2.png') }}" alt="" class="rounded me-3 border" />
                         <div class="notifications-desc">
-                            <a href="${notification->data['url'] ?? '#' }" class="font-body text-truncate-2-line">
-                                ${notification.message}
+                            <a href="${notification.data.url || '#'}" class="font-body text-truncate-2-line">
+                                ${notification.data.message}
                             </a>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="notifications-date text-muted border-bottom border-bottom-dashed">
                                     Just now
                                 </div>
                                 <div class="d-flex align-items-center float-end gap-2">
-                                    <a href="${notification->data['url'] ?? '#' }" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
+                                    <a href="javascript:void(0);" class="d-block wd-8 ht-8 rounded-circle bg-gray-300 mark-as-read"
                                         data-id="${notification.id}" data-bs-toggle="tooltip" title="Make as Read"></a>
-                                    <a href="${notification->data['url'] ?? '#' }" class="text-danger delete-notification"
+                                    <a href="javascript:void(0);" class="text-danger delete-notification"
                                         data-id="${notification.id}" data-bs-toggle="tooltip" title="Remove">
                                         <i class="feather-x fs-12"></i>
                                     </a>
@@ -579,38 +579,57 @@
             });
 
         // Mark as read functionality
-        $(document).on('click', '.mark-as-read', function() {
+        $(document).on('click', '.mark-as-read', function(e) {
+            e.preventDefault();
             let notificationId = $(this).data('id');
+            let $notificationItem = $(this).closest('.notifications-item');
+            
             $.post('/notifications/' + notificationId + '/read', {
                 _token: '{{ csrf_token() }}'
             }, function() {
                 // Update counter
                 let counter = $('#notification-counter');
                 counter.text(parseInt(counter.text()) - 1);
+                // Remove from UI
+                $notificationItem.remove();
+            }).fail(function(xhr) {
+                console.error('Error:', xhr.responseText);
             });
         });
 
         // Mark all as read
-        $(document).on('click', '.mark-all-read', function() {
+        $(document).on('click', '.mark-all-read', function(e) {
+            e.preventDefault();
             $.post('/notifications/read-all', {
                 _token: '{{ csrf_token() }}'
             }, function() {
                 $('#notification-counter').text('0');
+                // Optionally remove all unread notifications from UI
+                $('.notifications-item').remove();
+            }).fail(function(xhr) {
+                console.error('Error:', xhr.responseText);
             });
         });
 
         // Delete notification
-        $(document).on('click', '.delete-notification', function() {
+        $(document).on('click', '.delete-notification', function(e) {
+            e.preventDefault();
             let notificationId = $(this).data('id');
+            let $notificationItem = $(this).closest('.notifications-item');
+            
             $.post('/notifications/' + notificationId + '/delete', {
                 _token: '{{ csrf_token() }}'
             }, function() {
                 // Update counter if notification was unread
                 let counter = $('#notification-counter');
-                let currentCount = parseInt(counter.text());
-                if (currentCount > 0) {
-                    counter.text(currentCount - 1);
+                if ($notificationItem.hasClass('unread')) { // Add this class if needed
+                    let currentCount = parseInt(counter.text());
+                    counter.text(currentCount > 0 ? currentCount - 1 : 0);
                 }
+                // Remove from UI
+                $notificationItem.remove();
+            }).fail(function(xhr) {
+                console.error('Error:', xhr.responseText);
             });
         });
     </script>

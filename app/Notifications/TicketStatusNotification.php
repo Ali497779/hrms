@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class TicketStatusNotification extends Notification
+class TicketStatusNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -44,7 +44,9 @@ class TicketStatusNotification extends Notification
             'ticket_id' => $this->ticket->id,
             'status' => $this->status,
             'date' => $this->ticket->date, // Keep as raw date
-            'url' => route('ticket.list').'#ticket-'.$this->ticket->id
+            'url' => route('ticket.list').'#ticket-'.$this->ticket->id,
+            'read_at' => null,
+            'created_at' => now()->toDateTimeString(),
         ]);
     }
 
