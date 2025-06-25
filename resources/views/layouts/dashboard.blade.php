@@ -545,7 +545,6 @@
     </header>
 
     <script>
-        // Make sure this is after your Echo initialization
         window.Echo.private(`App.Models.User.{{ auth()->id() }}`)
             .notification((notification) => {
                 // Update counter
