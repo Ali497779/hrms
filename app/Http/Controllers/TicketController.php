@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ticket;
-use App\Notifications\TicketCreatedNotification;
-use App\Notifications\TicketStatusNotification;
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Models\Attendance;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Ticket;
+use App\Models\Attendance;
+use Illuminate\Http\Request;
+use App\Mail\TicketCreatedMail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\TicketStatusNotification;
+use App\Notifications\TicketCreatedNotification;
+use App\Mail\TicketStatusMail;
 
 class TicketController extends Controller
 {
@@ -55,6 +58,7 @@ class TicketController extends Controller
         $admins = User::where('is_admin', true)->get();
         foreach ($admins as $admin) {
             $admin->notify(new TicketCreatedNotification($ticket, auth()->user()));
+            Mail::to($admin->email)->send(new TicketCreatedMail($ticket, auth()->user()));
         }
 
         return back()->with('success', 'Ticket submitted successfully!');
@@ -86,6 +90,7 @@ class TicketController extends Controller
 
         // Notify user
         $ticket->user->notify(new TicketStatusNotification($ticket, 'Approved'));
+        Mail::to($ticket->user->email)->queue(new TicketStatusMail($ticket, 'Approved'));
 
         return redirect()->back()->with('success', 'Ticket approved and attendance marked as Present.');
     }
@@ -109,6 +114,7 @@ class TicketController extends Controller
 
         // Notify user
         $ticket->user->notify(new TicketStatusNotification($ticket, 'Rejected'));
+        Mail::to($ticket->user->email)->queue(new TicketStatusMail($ticket, 'Rejected'));
 
         return redirect()->back()->with('error', 'Ticket rejected and attendance marked as Absent.');
     }

@@ -6,23 +6,20 @@ window._ = require('lodash');
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+// window.axios = require('axios');
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-import Echo from 'laravel-echo';
+// window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Pusher = require('pusher-js');
 
+Pusher.logToConsole = true; // Enable this for debugging
+
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
     encrypted: true,
-    // Remove these lines as they're not needed for Pusher
-    // wsHost: window.location.hostname,
-    // wsPort: 6001,
     disableStats: true,
-    enabledTransports: ['ws', 'wss'] // Add this for better connection handling
+    enabledTransports: ['ws', 'wss']
 });

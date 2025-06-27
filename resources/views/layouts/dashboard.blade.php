@@ -432,6 +432,7 @@
                                             $is_admin = $admin;
                                             $is_sales = $sales;
                                             $is_developer = $developer;
+                                            $is_projectmanager = $projectmanager;
                                             $is_designer = $designer;
                                             $is_customer = $customer;
                                             $route = '';
@@ -440,6 +441,10 @@
                                                 case $is_sales:
                                                     $route =   'sales'; 
                                                     echo 'Sales';
+                                                    break;
+                                                case $is_projectmanager:
+                                                    $route =   'pm'; 
+                                                    echo 'Project Manager';
                                                     break;
 
                                                 case $is_developer:
@@ -719,7 +724,7 @@
                     </ul>
                 </li>
                 @endif
-                @if($admin || $sales || $projectmanager)
+                @if($admin || $sales)
                     <li class="nxl-item nxl-hasmenu">
                         <a href="javascript:void(0);" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
@@ -732,7 +737,7 @@
                     </li>
                 @endif
 
-                @if($admin || $sales || $projectmanager)
+                @if($admin || $sales)
                     <li class="nxl-item nxl-hasmenu">
                         <a href="javascript:void(0);" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-alert-circle"></i></span>

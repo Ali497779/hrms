@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Mail\TicketCreatedMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LeadController;
@@ -17,6 +20,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Models\Ticket;
+use Illuminate\Support\Carbon;
 
 
 // Root route
@@ -88,6 +93,25 @@ Route::group(['middleware' => 'auth:sales,admin,developer,projectmanager,designe
     
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });
+
+
+// Route::get('/test-ticket-mail', function () {
+//     $user = User::where('email', 'aliazeemkhan666@gmail.com')->first();
+
+//     // Fallback: Create test ticket if none exists
+//     $ticket = Ticket::latest()->first();
+//     if (!$ticket) {
+//         $ticket = Ticket::create([
+//             'user_id' => $user->id,
+//             'date' => Carbon::now()->format('Y-m-d'),
+//             'reason' => 'Test reason for leave',
+//         ]);
+//     }
+
+//     Mail::to('aliazeemkhan666@gmail.com')->send(new TicketCreatedMail($ticket, $user));
+
+//     return 'Email sent to ' . $user->email;
+// });
 
 Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer'], 'prefix' => 'attendance', 'as' => 'attendance.'], function () {
     Route::post('/check-in', [AttendanceController::class, 'checkIn'])->name('check-in');
