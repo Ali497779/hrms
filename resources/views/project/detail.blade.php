@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Employee Detail')
+@section('title', 'Project Detail')
 
 @section('content')
 
@@ -10,11 +10,11 @@
             <div class="page-header">
                 <div class="page-header-left d-flex align-items-center">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Employee Detail</h5>
+                        <h5 class="m-b-10">Project Detail</h5>
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('employee.list') }}">Employees</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('project.list') }}">Projects</a></li>
                         <li class="breadcrumb-item active">Detail</li>
                     </ul>
                 </div>
@@ -31,60 +31,37 @@
                                     <div class="card-body task-header d-md-flex align-items-center justify-content-between">
                                         <div class="me-4">
                                             <h4 class="mb-4 fw-bold d-flex">
-                                                <span class="text-truncate-1-line">Duralux || CRM Applications &amp; Admin Dashboar <span class="badge bg-soft-primary text-primary mx-3">In Prograss</span></span>
+                                                <span class="text-truncate-1-line">{{ $project->title }} 
+                                                    <?php
+                                                    if($project->status == 'pending'){
+                                                        $status_class = 'bg-soft-warning text-warning';
+                                                    }elseif($project->status == 'progress'){
+                                                        $status_class = 'bg-soft-warning text-warning';
+                                                    }elseif($project->status == 'completed'){
+                                                        $status_class = 'bg-soft-success text-success';
+                                                    }elseif($project->status == 'incompleted'){
+                                                        $status_class = 'bg-soft-danger text-danger';
+                                                    }elseif($project->status == 'closed'){
+                                                        $status_class = 'bg-soft-danger text-danger';
+                                                    }
+                                                    ?>
+                                                    <span class="badge {{ $status_class }} mx-3">{{ $project->status }} </span>
+                                            
+                                                </span>
                                             </h4>
                                             <div class="d-flex align-items-center">
-                                                <div class="dropdown">
-                                                    <a class="btn btn-icon btn-light-brand dropdown-toggle" data-bs-toggle="dropdown" data-bs-offset="0, 10"> CRM Dashboard </a>
-                                                    <div class="dropdown-menu wd-300">
-                                                        <a href="javascript:void(0);" class="dropdown-item">
-                                                            <span> #01 - CRM Applications</span>
-                                                            <span class="fs-12 fw-normal text-muted">- G.Cute</span>
-                                                        </a>
-                                                        <a href="javascript:void(0);" class="dropdown-item">
-                                                            <span> #02 - Admin Dashboard</span>
-                                                            <span class="fs-12 fw-normal text-muted">- A.Cantones</span>
-                                                        </a>
-                                                        <a href="javascript:void(0);" class="dropdown-item">
-                                                            <span> #03 - Webapps Applications</span>
-                                                            <span class="fs-12 fw-normal text-muted">- M.Hanvey</span>
-                                                        </a>
-                                                        <a href="javascript:void(0);" class="dropdown-item">
-                                                            <span> #04 - Dashboard Redesign</span>
-                                                            <span class="fs-12 fw-normal text-muted">- K.Hune</span>
-                                                        </a>
-                                                        <a href="javascript:void(0);" class="dropdown-item">
-                                                            <span> #05 - Applications Debugging</span>
-                                                            <span class="fs-12 fw-normal text-muted"> - V.Maton</span>
-                                                        </a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a href="javascript:void(0);" class="dropdown-item">
-                                                            <span> Explorer More Projects </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <span class="vr mx-3 text-muted"></span>
+                                                {{-- <span class="vr mx-3 text-muted"></span> --}}
                                                 <div class="img-group lh-0 ms-2 justify-content-start">
-                                                    <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="" data-bs-original-title="Janette Dalton">
-                                                        <img src="assets/images/avatar/2.png" class="img-fluid" alt="image">
-                                                    </a>
-                                                    <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="" data-bs-original-title="Michael Ksen">
-                                                        <img src="assets/images/avatar/3.png" class="img-fluid" alt="image">
-                                                    </a>
-                                                    <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="" data-bs-original-title="Socrates Itumay">
-                                                        <img src="assets/images/avatar/4.png" class="img-fluid" alt="image">
-                                                    </a>
-                                                    <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="" data-bs-original-title="Marianne Audrey">
-                                                        <img src="assets/images/avatar/5.png" class="img-fluid" alt="image">
-                                                    </a>
-                                                    <a href="javascript:void(0)" class="avatar-image avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="" data-bs-original-title="Marianne Audrey">
-                                                        <img src="assets/images/avatar/6.png" class="img-fluid" alt="image">
-                                                    </a>
-                                                    <a href="javascript:void(0)" class="avatar-text avatar-md" data-bs-toggle="tooltip" data-bs-trigger="hover" title="" data-bs-original-title="Explorer More">
-                                                        <i class="feather-more-horizontal"></i>
-                                                    </a>
+                                                    @foreach ($project->members as $member)
+                                                            @php
+                                                                $randomColor = substr(md5($member->employee->user->name), 0, 6); // deterministic based on name, optional
+                                                            @endphp
+
+                                                            <img class="avatar-image avatar-md" src="https://ui-avatars.com/api/?background={{ $randomColor }}&color=fff&name={{ urlencode($member->employee->user->name) }}"
+                                                                alt="Avatar" width="100" title="{{ $member->employee->user->name }} ({{ $member->employee->designation }})">
+                                                    @endforeach
                                                     <span class="d-none d-sm-flex">
-                                                        <span class="fs-12 text-muted ms-3 text-truncate-1-line">24+ members</span>
+                                                        <span class="fs-12 text-muted ms-3 text-truncate-1-line">{{ count($project->members) }} members</span>
                                                     </span>
                                                 </div>
                                             </div>
@@ -112,150 +89,128 @@
                             <div class="col-xl-8">
                                 <div class="card stretch stretch-full">
                                     <div class="card-header">
-                                        <div class="w-100">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a href="javascript:void(0);" class="fs-12 fw-medium text-muted">
-                                                    <span class="text-truncate-1-line">Projects In Progress <i class="feather-link-2 fs-10 ms-1"></i></span>
-                                                </a>
-                                                <div class="ms-3">
-                                                    <span class="fs-12 text-muted text-truncate-1-line">16/25 Tasks Completed <span class="fs-11 text-muted">(78%)</span></span>
-                                                </div>
-                                            </div>
-                                            <div class="progress mt-2 ht-5">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 78%"></div>
-                                            </div>
-                                        </div>
+                                        <h3>Details</h3>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
                                                 <label class="form-label">Project</label>
-                                                <p>#01 - CRM Applications - G.Cute</p>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <label class="form-label">Billing Type </label>
-                                                <p>Project Hours</p>
+                                                <p>#0{{ $project->id }} - {{ $project->title }}</p>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <label class="form-label">Status</label>
-                                                <p>In Progress</p>
+                                                <p>{{ $project->status }}</p>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <label class="form-label">Customer</label>
-                                                <p>Green Cute</p>
+                                                <p>{{ $project->customer->name }}</p>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <label class="form-label">Start Date </label>
-                                                <p>2023-02-25</p>
+                                                <p>{{ $project->start_date  ?? 'N/A'}}</p>
                                             </div>
                                             <div class="col-md-6 mb-4">
                                                 <label class="form-label">End Date </label>
-                                                <p>2023-03-20</p>
+                                                <p>{{ $project->end_date  ?? 'N/A'}}</p>
                                             </div>
                                             <div class="col-md-6 mb-4">
-                                                <label class="form-label">Hourly Rate</label>
-                                                <p>$25.00</p>
-                                            </div>
-                                            <div class="col-md-6 mb-4">
-                                                <label class="form-label">Logged Hours</label>
-                                                <p>00:00:00</p>
+                                                <label class="form-label">Logged Hours </label>
+                                                <p>00:00</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <label class="form-label">Description</label>
-                                                <p>CRM (Customer Relationship Management) applications are software tools that help organizations manage interactions with their customers, streamline sales and marketing activities, and improve overall customer satisfaction. There are many different CRM applications available, ranging from simple contact management tools to more sophisticated platforms that integrate with other business systems.</p>
-                                                <p class="fw-semibold mt-4">Some of the common features of CRM applications include:</p>
-                                                <ul>
-                                                    <li>Contact Management: Allows organizations to store and manage customer data, including names, addresses, phone numbers, and email addresses.</li>
-                                                    <li>Sales Management: Helps organizations manage their sales pipeline, track leads and deals, and analyze sales performance.</li>
-                                                    <li>Marketing Automation: Helps organizations automate their marketing processes, including email marketing, social media campaigns, and lead generation.</li>
-                                                    <li>Customer Service and Support: Allows organizations to track and manage customer service requests and provide support to customers via various channels.</li>
-                                                    <li>Analytics and Reporting: Provides insights into customer behavior, sales trends, and other key metrics that help organizations make data-driven decisions.</li>
-                                                </ul>
-                                                <p class="mb-0">Some popular CRM applications include Salesforce, Microsoft Dynamics 365, HubSpot, Zoho CRM, and Freshsales. The choice of CRM application depends on an organization's specific needs and budget.</p>
+                                                <p>{{$project->description}}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                           @php
+                                $attachments = json_decode($project->attachments, true);
+                                $storagePath = asset('/');
+                                $svgBoxBase = 'https://s2.svgbox.net/files.svg?ic=';
+
+                                // Map extensions to icon names from SVGBox
+                                $fileIcons = [
+                                    'pdf' => 'pdf',
+                                    'php' => 'php',
+                                    'pub' => 'publisher',
+                                    'doc' => 'word',
+                                    'docx' => 'word',
+                                    'xls' => 'excel',
+                                    'xlsx' => 'excel',
+                                    'sql' => 'sql',
+                                    'zip' => 'zip',
+                                    'rar' => 'zip',
+                                    'psd' => 'psd',
+                                    'ai' => 'ai',
+                                    'indd' => 'indesign',
+                                    'mp3' => 'music',
+                                    'wav' => 'music',
+                                    'ogg' => 'music',
+                                    'mp4' => 'video',
+                                    'webm' => 'video',
+                                    'mov' => 'video',
+                                    'txt' => 'text',
+                                    'csv' => 'excel',
+                                    'json' => 'json',
+                                    'default' => 'file',
+                                ];
+                            @endphp
+
                             <div class="col-xl-4">
-                                <div class="row">
-                                    <div class="col-xxl-6 col-xl-12 col-sm-6">
-                                        <div class="card stretch stretch-full">
-                                            <div class="card-body">
-                                                <div class="avatar-text bg-soft-primary text-primary border-0 mb-3">
-                                                    <i class="feather-log-in"></i>
-                                                </div>
-                                                <p><span class="fw-bold text-primary">Logged Hours:</span> 00:00</p>
-                                                <div><span class="fw-bold text-dark">Total Billed:</span> 00:00</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-6 col-xl-12 col-sm-6">
-                                        <div class="card stretch stretch-full">
-                                            <div class="card-body">
-                                                <div class="avatar-text bg-soft-warning text-warning border-0 mb-3">
-                                                    <i class="feather-clipboard"></i>
-                                                </div>
-                                                <p><span class="fw-bold text-warning">Billable Hours:</span> 00:00</p>
-                                                <div><span class="fw-bold text-dark">Total Billed:</span> 00:00</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-6 col-xl-12 col-sm-6">
-                                        <div class="card stretch stretch-full">
-                                            <div class="card-body">
-                                                <div class="avatar-text bg-soft-success text-success border-0 mb-3">
-                                                    <i class="feather-check"></i>
-                                                </div>
-                                                <p><span class="fw-bold text-success">Billed Hours:</span> 00:00</p>
-                                                <div><span class="fw-bold text-dark">Total Billed:</span> 00:00</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-6 col-xl-12 col-sm-6">
-                                        <div class="card stretch stretch-full">
-                                            <div class="card-body">
-                                                <div class="avatar-text bg-soft-danger text-danger border-0 mb-3">
-                                                    <i class="feather-x"></i>
-                                                </div>
-                                                <p><span class="fw-bold text-danger">Unbilled Hour:</span> 00:00</p>
-                                                <div><span class="fw-bold text-dark">Total Billed:</span> 00:00</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="card stretch stretch-full">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="fw-semibold">16 / 25 Open Tasks</div>
-                                                    <i class="feather-check-circle text-warning"></i>
-                                                </div>
-                                                <div class="progress mt-2 ht-3">
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 78%"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-md-6">
-                                        <div class="card stretch stretch-full">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="fw-semibold">25 / 25 Days Left</div>
-                                                    <i class="feather-calendar text-success"></i>
-                                                </div>
-                                                <div class="progress mt-2 ht-3">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="card stretch stretch-full">
-                                    <div id="billed-area-chart"></div>
+                                    <div class="card-header">
+                                        <h3>Attachments</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            @foreach ($attachments as $file)
+                                                @php
+                                                    $filePath = $storagePath . $file['path'];
+                                                    $fileName = $file['name'];
+                                                    $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                                                    $isImage = in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                                                    $isAudio = in_array($ext, ['mp3', 'wav', 'ogg']);
+                                                    $isVideo = in_array($ext, ['mp4', 'webm', 'mov']);
+
+                                                    $iconKey = $fileIcons[$ext] ?? $fileIcons['default'];
+                                                    $iconUrl = $svgBoxBase . $iconKey;
+                                                @endphp
+
+                                                <div class="col-md-6 col-lg-4 mb-3 text-center">
+                                                    @if ($isImage)
+                                                        <a href="{{ $filePath }}" target="_blank">
+                                                            <img src="{{ $filePath }}" alt="{{ $fileName }}" class="img-fluid rounded shadow" style="max-height: 150px;">
+                                                            <div class="mt-2 text-truncate">{{ $fileName }}</div>
+                                                        </a>
+                                                    @elseif ($isAudio)
+                                                        <audio controls class="w-100">
+                                                            <source src="{{ $filePath }}" type="audio/{{ $ext }}">
+                                                            Your browser does not support the audio element.
+                                                        </audio>
+                                                        <div class="mt-2 text-truncate">{{ $fileName }}</div>
+                                                    @elseif ($isVideo)
+                                                        <video controls class="w-100" style="max-height: 150px;">
+                                                            <source src="{{ $filePath }}" type="video/{{ $ext }}">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                        <div class="mt-2 text-truncate">{{ $fileName }}</div>
+                                                    @else
+                                                        <a href="{{ $filePath }}" target="_blank" class="text-decoration-none">
+                                                            <img src="{{ $iconUrl }}" alt="{{ $ext }}" style="height: 64px;" class="mb-2">
+                                                            <div class="text-truncate" style="max-width: 100%;">{{ $fileName }}</div>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="activityTab">

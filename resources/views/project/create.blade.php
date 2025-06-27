@@ -103,34 +103,6 @@
                                         <div class="card-body additional-info">
                                             <div class="row mb-4 align-items-center">
                                                 <div class="col-lg-4">
-                                                    <label for="dateofBirth" class="fw-semibold">Start Date: </label>
-                                                </div>
-                                                <div class="col-lg-8">
-                                                    <div class="input-group">
-                                                        <div class="input-group-text"><i class="feather-calendar"></i></div>
-                                                        <input class="form-control" id="dateofBirth" name="start_date"
-                                                            placeholder="Project Start Date" >
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body additional-info">
-                                            <div class="row mb-4 align-items-center">
-                                                <div class="col-lg-4">
-                                                    <label for="enddate" class="fw-semibold">End Date: </label>
-                                                </div>
-                                                <div class="col-lg-8">
-                                                    <div class="input-group">
-                                                        <div class="input-group-text"><i class="feather-calendar"></i></div>
-                                                        <input class="form-control dateinput" id="enddate" name="end_date"
-                                                            placeholder="Project End Date" >
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body additional-info">
-                                            <div class="row mb-4 align-items-center">
-                                                <div class="col-lg-4">
                                                     <label for="attachments" class="fw-semibold">Attachments: </label>
                                                 </div>
                                                 <div class="col-lg-8">

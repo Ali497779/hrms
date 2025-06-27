@@ -90,8 +90,8 @@
                                                         </div>
                                                     </a>
                                                 </td>
-                                                <td>{{ $project->start_date }}</td>
-                                                <td>{{ $project->end_date }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($project->start_date)->format('d M Y g:i A') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($project->end_date)->format('d M Y g:i A') }}</td>
                                                 <td>
                                                     <select class="form-select form-control" data-select2-selector="user">
                                                         @foreach ($project->members as $member)                                                        
