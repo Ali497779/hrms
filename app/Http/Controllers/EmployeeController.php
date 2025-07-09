@@ -8,6 +8,7 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use App\Models\PublicHoliday;
 use App\Mail\EmployeeWelcomeEmail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
@@ -134,6 +135,26 @@ class EmployeeController extends Controller
             ->get();
 
         return view('employee.calender', compact('employee', 'attendances', 'holidays', 'currentMonth', 'currentYear'));
+    }
+
+    public function myCalender($month = null, $year = null){
+        $id = Auth::user()->id;
+
+        $employee = Employee::with('user')->where('user_id', $id)->first();
+
+        $currentMonth = $month ?? now()->month;
+        $currentYear = $year ?? now()->year;
+
+        $attendances = Attendance::where('user_id', $employee->user_id)
+            ->whereMonth('date', $currentMonth)
+            ->whereYear('date', $currentYear)
+            ->get();
+
+        $holidays = PublicHoliday::whereMonth('date', $currentMonth)
+            ->whereYear('date', $currentYear)
+            ->get();
+
+        return view('employee.mycalender', compact('employee', 'attendances', 'holidays', 'currentMonth', 'currentYear'));
     }
 
 

@@ -16,6 +16,7 @@ class Payroll extends Model
         'base_salary',
         'commission',
         'deduction',
+        'total_tax',
         'total_pay',
         'generated_at',
     ];

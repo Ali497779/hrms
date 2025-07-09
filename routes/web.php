@@ -59,10 +59,14 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'employee', 'as'
     Route::get('/create', [EmployeeController::class, 'create'])->name('create'); 
     Route::post('/store', [EmployeeController::class, 'store'])->name('store'); 
     Route::get('/edit/{id}', [EmployeeController::class, 'edit'])->name('edit'); 
-    Route::get('/employee/calender/{id}/{month?}/{year?}', [EmployeeController::class, 'calender'])->name('calender');
+    Route::get('/calender/{id}/{month?}/{year?}', [EmployeeController::class, 'calender'])->name('calender');
     Route::put('/update/{id}', [EmployeeController::class, 'update'])->name('update');
     Route::get('/view/{id}', [EmployeeController::class, 'detail'])->name('view'); 
     Route::get('/delete/{id}', [EmployeeController::class, 'delete'])->name('delete'); 
+});
+
+Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer']], function () {
+Route::get('mycalender/{month?}/{year?}',[EmployeeController::class, 'myCalender'])->name('mycalender');
 });
 
 Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'customer', 'as' => 'customer.'], function () {

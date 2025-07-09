@@ -95,16 +95,19 @@
                     return;
                 }
 
+                console.log(data);
+
                 document.getElementById('payroll-result').innerHTML = `
                     <div class="card mt-4">
                         <div class="card-header">
                             <strong>Generated Payroll</strong> ${data.date}
                         </div>
                         <div class="card-body">
-                            <p><strong>Generated Salary:</strong> Present Days (${data.present_days}) × ${data.per_day_salary} = ${data.earned_salary} PKR</p>
+                            <p><strong>Generated Salary:</strong> Present Days (${data.present_days}) + Week Days (${data.weekend_days}) × ${data.per_day_salary} = ${data.earned_salary} PKR</p>
                             <p><strong>Deduction:</strong> Absent Days (${data.absent_days}) × ${data.per_day_salary} = ${data.deduction} PKR</p>
                             <p><strong>Commission:</strong> ${data.commission} PKR</p>
                             <p><strong>Holidays:</strong> ${data.holiday_days} × ${data.per_day_salary} = ${data.holiday_pay} PKR</p>
+                            <p><strong>Income Tax:</strong> ${data.total_tax} PKR</p>
                             <hr>
                             <p><strong>Total Payroll:</strong> ${data.total_pay.toLocaleString()} PKR</p>
                         </div>
