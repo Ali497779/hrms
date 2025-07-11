@@ -67,6 +67,8 @@ Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'employee', 'as'
 
 Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer']], function () {
 Route::get('mycalender/{month?}/{year?}',[EmployeeController::class, 'myCalender'])->name('mycalender');
+Route::get('/mypayslip',[EmployeeController::class, 'myPayslip'])->name('mypayslip');
+Route::post('/payslip/download',[EmployeeController::class, 'PayslipDownload'])->name('payslip.download');
 });
 
 Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'customer', 'as' => 'customer.'], function () {

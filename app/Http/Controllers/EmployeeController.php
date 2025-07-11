@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
@@ -155,6 +158,41 @@ class EmployeeController extends Controller
             ->get();
 
         return view('employee.mycalender', compact('employee', 'attendances', 'holidays', 'currentMonth', 'currentYear'));
+    }
+
+    public function myPayslip(){
+        return view('employee.mypayslip', );
+    }
+
+    public function PayslipDownload(Request $request)
+    {
+        try {
+            // Step 1: Validate request
+            $request->validate([
+                'date' => 'required|date',
+            ]);
+
+            // Step 2: Extract year and month
+            $date = Carbon::parse($request->date);
+            $year = $date->format('Y');
+            $month = $date->format('m');
+
+            // Step 3: Construct path to file
+            $userId = Auth::user()->id;
+            $filePath = "payroll/payslips/{$userId}_{$year}_{$month}.pdf";
+
+            // Step 4: Check if file exists and return download
+            if (Storage::disk('public')->exists($filePath)) {
+                return Storage::disk('public')->download($filePath);
+            } else {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Payslip file is not available.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'An unexpected error occurred.');
+        }
     }
 
 

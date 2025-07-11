@@ -67,7 +67,7 @@
 <body>
 
     <div class="header">
-        <img src="{{ public_path('assets/images/logo.png') }}" alt="Company Logo">
+        <img src="{{ public_path('assets/images/wizweaver-Logo.png') }}" style="width:300px;" alt="Company Logo">
         <h2>Pay Slip - {{ $monthName }}</h2>
     </div>
 
@@ -93,10 +93,6 @@
         <tr>
             <td>Commission</td>
             <td>{{ number_format($payroll->commission, 2) }}</td>
-        </tr>
-        <tr>
-            <td>Holiday Pay</td>
-            <td>{{ number_format(($payroll->base_salary - ($payroll->base_salary / $employee->salary * $employee->salary)), 2) }}</td>
         </tr>
         <tr>
             <td>Total Earnings</td>

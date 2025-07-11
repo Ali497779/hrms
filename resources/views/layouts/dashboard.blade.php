@@ -761,6 +761,7 @@
                         @else
                         <li class="nxl-item"><a class="nxl-link" href="{{ route('payroll.check') }}">Check My Payroll</a></li>
                         <li class="nxl-item"><a class="nxl-link" href="{{ route('mycalender', ['month' => now()->month, 'year' => now()->year]) }}">My Calender</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{ route('mypayslip') }}">Download My Payslip</a></li>
                         @endif
                     </ul>
                 </li>

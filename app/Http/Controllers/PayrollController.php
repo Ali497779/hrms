@@ -151,6 +151,10 @@ class PayrollController extends Controller
                 'payroll' => $payroll,
                 'monthName' => Carbon::parse("$year-$month-01")->format('F Y'),
             ]);
+
+            if (Storage::disk('public')->exists($payslipPath)) {
+                Storage::disk('public')->delete($payslipPath);
+            }
             Storage::disk('public')->put($payslipPath, $pdf->output());
 
             $reportData[] = [
@@ -172,12 +176,20 @@ class PayrollController extends Controller
             ];
         }
 
+        
         $filename = "Payroll{$month}-{$year}.csv";
+        $csvPath = "payroll/$filename";
+
+        // Delete existing CSV if exists
+        if (Storage::disk('public')->exists($csvPath)) {
+            Storage::disk('public')->delete($csvPath);
+        }
+
         $csvData = "\xEF\xBB\xBF" . implode(',', array_keys($reportData[0])) . "\n";
         foreach ($reportData as $row) {
             $csvData .= implode(',', array_map(fn ($v) => '"' . str_replace('"', '""', $v) . '"', $row)) . "\n";
         }
-        Storage::disk('public')->put("payroll/$filename", $csvData);
+        Storage::disk('public')->put($csvPath, $csvData);
 
         return view('payroll.download', [
             'fileUrl' => asset("storage/payroll/$filename"),

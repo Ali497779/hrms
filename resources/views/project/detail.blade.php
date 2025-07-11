@@ -165,6 +165,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
+                                            @if($attachments != null)
                                             @foreach ($attachments as $file)
                                                 @php
                                                     $filePath = $storagePath . $file['path'];
@@ -205,6 +206,7 @@
                                                     @endif
                                                 </div>
                                             @endforeach
+                                            @endif
                                         </div>
                                         <div class="row">
                                             <div class="accordion" id="accordionExample">
@@ -237,65 +239,139 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="overviewTab">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card stretch stretch-full">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h3>Discussion</h3>
+                                        <button class="btn btn-sm btn-outline-primary">Previous Messages</button>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Chat Area -->
+                                        <div class="chat-box mb-3" style="max-height: 400px; overflow-y: auto;">
+                                            <!-- Message Left -->
+                                            <div class="d-flex mb-3 chat-message others-message">
+                                                <img class="avatar-image avatar-md rounded-circle me-2"
+                                                    src="https://ui-avatars.com/api/?background=ff6347&color=fff&name=Ali"
+                                                    alt="Ali" width="40">
+                                                <div>
+                                                    <div class="bg-light p-2 rounded-3">
+                                                        <div class="fw-bold">Ali <small class="text-muted ms-2">2:35 PM</small></div>
+                                                        <div>Hello @John! This is urgent. 😄</div>
+                                                        <div class="mt-1 small text-muted">
+                                                            <span class="seen-by" data-bs-toggle="tooltip" title="Seen by You, Sara">Seen by 2</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Like / Reply -->
+                                                    <div class="mt-1 d-flex gap-2">
+                                                        <button class="btn btn-sm btn-outline-secondary btn-show-reactions">Like</button>
+                                                        <button class="btn btn-sm btn-outline-secondary btn-reply">Reply</button>
+                                                    </div>
+
+                                                    <!-- Reaction Emojis (Row) -->
+                                                    <div class="reaction-options d-none mt-1 d-flex gap-2">
+                                                        <button class="btn btn-sm btn-light">👍 Like</button>
+                                                        <button class="btn btn-sm btn-light">❤️ Love</button>
+                                                        <button class="btn btn-sm btn-light">😂 Haha</button>
+                                                        <button class="btn btn-sm btn-light">😮 Wow</button>
+                                                        <button class="btn btn-sm btn-light">😢 Sad</button>
+                                                        <button class="btn btn-sm btn-light">😡 Angry</button>
+                                                    </div>
+
+                                                    <!-- Reply Box -->
+                                                    <div class="reply-box d-none mt-2">
+                                                        <textarea class="form-control" rows="2" placeholder="Write a reply..."></textarea>
+                                                        <button class="btn btn-sm btn-primary mt-1">Send Reply</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Emoji-only message (from other user) -->
+                                            <div class="d-flex mb-3 chat-message others-message">
+                                                <img class="avatar-image avatar-md rounded-circle me-2"
+                                                    src="https://ui-avatars.com/api/?background=fc8403&color=fff&name=John"
+                                                    alt="John" width="40">
+                                                <div>
+                                                    <div class="bg-light p-2 rounded-3">
+                                                        <div class="fw-bold">John <small class="text-muted ms-2">2:15 PM</small></div>
+                                                        <div>😎🔥🎉💯</div>
+                                                        <div class="mt-1 small text-muted">
+                                                            <span data-bs-toggle="tooltip" title="Seen by You, Sara">Seen by 2</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-1 d-flex gap-2">
+                                                        <button class="btn btn-sm btn-outline-secondary btn-show-reactions">Like</button>
+                                                        <button class="btn btn-sm btn-outline-secondary btn-reply">Reply</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- GIF Message (from other user) -->
+                                            <div class="d-flex mb-3 chat-message others-message">
+                                                <img class="avatar-image avatar-md rounded-circle me-2"
+                                                    src="https://ui-avatars.com/api/?background=dc3545&color=fff&name=Sara"
+                                                    alt="Sara" width="40">
+                                                <div>
+                                                    <div class="bg-light p-2 rounded-3">
+                                                        <div class="fw-bold">Sara <small class="text-muted ms-2">2:18 PM</small></div>
+                                                        <div>
+                                                            <img src="https://media.tenor.com/GlN7D6vdm9gAAAAC/cat-love.gif" class="img-fluid rounded my-2" style="max-width: 200px;" alt="GIF">
+                                                        </div>
+                                                        <div class="mt-1 small text-muted">
+                                                            <span data-bs-toggle="tooltip" title="Seen by You, John">Seen by 2</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-1 d-flex gap-2">
+                                                        <button class="btn btn-sm btn-outline-secondary btn-show-reactions">Like</button>
+                                                        <button class="btn btn-sm btn-outline-secondary btn-reply">Reply</button>
+                                                    </div>
+                                                </div>
+                                            </div>
 
 
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="activityTab">
-                        <div class="card stretch stretch-full">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center justify-content-center" style="height: calc(100vh - 315px)">
-                                    <div class="text-center">
-                                        <h2 class="fs-16 fw-semibold">No activity yet!</h2>
-                                        <p class="fs-12 text-muted">There is no activity on this project</p>
-                                        <a href="javascript:void(0);" class="avatar-text bg-soft-primary text-primary mx-auto" data-bs-toggle="tooltip" title="Create Activity">
-                                            <i class="feather-plus"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="timesheetsTab">
-                        <div class="card stretch stretch-full">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center justify-content-center" style="height: calc(100vh - 315px)">
-                                    <div class="text-center">
-                                        <h2 class="fs-16 fw-semibold">No timesheets yet!</h2>
-                                        <p class="fs-12 text-muted">There is no timesheets on this project</p>
-                                        <a href="javascript:void(0);" class="avatar-text bg-soft-primary text-primary mx-auto" data-bs-toggle="tooltip" title="Create Timesheets">
-                                            <i class="feather-plus"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="milestonesTab">
-                        <div class="card stretch stretch-full">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center justify-content-center" style="height: calc(100vh - 315px)">
-                                    <div class="text-center">
-                                        <h2 class="fs-16 fw-semibold">No milestones yet!</h2>
-                                        <p class="fs-12 text-muted">There is no milestones on this project</p>
-                                        <a href="javascript:void(0);" class="avatar-text bg-soft-primary text-primary mx-auto" data-bs-toggle="tooltip" title="Create Milestones">
-                                            <i class="feather-plus"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="discussionsTab">
-                        <div class="card stretch stretch-full">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center justify-content-center" style="height: calc(100vh - 315px)">
-                                    <div class="text-center">
-                                        <h2 class="fs-16 fw-semibold">No discussions yet!</h2>
-                                        <p class="fs-12 text-muted">There is no discussions on this project</p>
-                                        <a href="javascript:void(0);" class="avatar-text bg-soft-primary text-primary mx-auto" data-bs-toggle="tooltip" title="Create Discussions">
-                                            <i class="feather-plus"></i>
-                                        </a>
+                                            <!-- Your Message -->
+                                            <div class="d-flex mb-3 justify-content-end chat-message your-message">
+                                                <div>
+                                                    <div class="bg-primary text-white p-2 rounded-3">
+                                                        <div class="fw-bold">You <small class="text-light ms-2">2:36 PM</small></div>
+                                                        <div>Okay noted! 😎</div>
+                                                        <div class="mt-1 small text-light">
+                                                            <span class="seen-by" data-bs-toggle="tooltip" title="Seen by Ali, Sara">Seen by 2</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <img class="avatar-image avatar-md rounded-circle ms-2" src="https://ui-avatars.com/api/?background=888&color=fff&name=You" alt="You" width="40">
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Input Box -->
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div id="message-input" class="form-control" contenteditable="true" style="min-height: 80px;"></div>
+                                            <button class="btn btn-primary">Send</button>
+                                           <!-- GIF Button -->
+                                            <button class="btn btn-outline-secondary" id="gif-btn">GIF</button>
+
+                                            <!-- GIF Picker Modal -->
+                                            <div id="gif-modal" class="d-none border p-2 bg-light position-absolute" style="bottom: 60px; right: 120px; width: 300px; z-index: 999;">
+                                                <input type="text" id="gif-search" class="form-control mb-2" placeholder="Search GIFs">
+                                                <div id="gif-results" style="max-height: 200px; overflow-y: auto;"></div>
+                                            </div>
+                                            <button id="emoji-btn" type="button" class="btn btn-outline-secondary">😊</button>
+                                            <div class="position-relative">                                            
+                                            <emoji-picker id="emoji-picker" class="d-none"></emoji-picker>
+                                            </div>
+                                            <input type="file" id="chat-file" class="d-none">
+                                            <label for="chat-file" class="btn btn-outline-secondary mb-0">📎</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -308,154 +384,270 @@
         </div>
     </main>
 
+    {{-- Drag & Drop File Upload Logic --}}
     <script>
-        (function () {
+    (function () {
+        'use strict';
 
-            'use strict';
-            
-            // Four objects of interest: drop zones, input elements, gallery elements, and the files.
-            // dataRefs = {files: [image files], input: element ref, gallery: element ref}
+        // Prevent default browser behavior for drag/drop
+        const preventDefaults = event => {
+            event.preventDefault();
+            event.stopPropagation();
+        };
 
-            const preventDefaults = event => {
-                event.preventDefault();
-                event.stopPropagation();
-            };
+        // Highlight drop area on dragover
+        const highlight = event => event.target.classList.add('highlight');
 
-            const highlight = event =>
-                event.target.classList.add('highlight');
-            
-            const unhighlight = event =>
-                event.target.classList.remove('highlight');
+        // Remove highlight when drag leaves
+        const unhighlight = event => event.target.classList.remove('highlight');
 
-            const getInputAndGalleryRefs = element => {
-                const zone = element.closest('.upload_dropZone') || false;
-                const gallery = zone.querySelector('.upload_gallery') || false;
-                const input = zone.querySelector('input[type="file"]') || false;
-                return {input: input, gallery: gallery};
-            }
+        // Get references to input and preview gallery inside a drop zone
+        const getInputAndGalleryRefs = element => {
+            const zone = element.closest('.upload_dropZone') || false;
+            const gallery = zone.querySelector('.upload_gallery') || false;
+            const input = zone.querySelector('input[type="file"]') || false;
+            return { input, gallery };
+        };
 
-            const handleDrop = event => {
-                const dataRefs = getInputAndGalleryRefs(event.target);
-                dataRefs.files = event.dataTransfer.files;
-                handleFiles(dataRefs);
-            }
+        // Handle file drop into zone
+        const handleDrop = event => {
+            const dataRefs = getInputAndGalleryRefs(event.target);
+            dataRefs.files = event.dataTransfer.files;
+            handleFiles(dataRefs);
+        };
 
+        // Add event listeners for drop zones
+        const eventHandlers = zone => {
+            const dataRefs = getInputAndGalleryRefs(zone);
+            if (!dataRefs.input) return;
 
-            const eventHandlers = zone => {
-
-                const dataRefs = getInputAndGalleryRefs(zone);
-
-                if (!dataRefs.input) return;
-
-                // Prevent default drag behaviors
-                ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+            // Setup drag event listeners
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
                 zone.addEventListener(event, preventDefaults, false);
                 document.body.addEventListener(event, preventDefaults, false);
-                });
+            });
 
-                // Highlighting drop area when item is dragged over it
-                ;['dragenter', 'dragover'].forEach(event => {
+            ['dragenter', 'dragover'].forEach(event => {
                 zone.addEventListener(event, highlight, false);
-                });
-                ;['dragleave', 'drop'].forEach(event => {
+            });
+            ['dragleave', 'drop'].forEach(event => {
                 zone.addEventListener(event, unhighlight, false);
-                });
+            });
 
-                // Handle dropped files
-                zone.addEventListener('drop', handleDrop, false);
+            // Drop file handler
+            zone.addEventListener('drop', handleDrop, false);
 
-                // Handle browse selected files
-                dataRefs.input.addEventListener('change', event => {
+            // Change event for file input (browse file)
+            dataRefs.input.addEventListener('change', event => {
                 dataRefs.files = event.target.files;
                 handleFiles(dataRefs);
-                }, false);
+            }, false);
+        };
 
-            }
+        // Initialize drop zones on page
+        const dropZones = document.querySelectorAll('.upload_dropZone');
+        for (const zone of dropZones) {
+            eventHandlers(zone);
+        }
 
+        // Allow only JPG/PNG/SVG files (no GIF/PDF/webp)
+        const isImageFile = file => ['image/jpeg', 'image/png', 'image/svg+xml'].includes(file.type);
 
-            // Initialise ALL dropzones
-            const dropZones = document.querySelectorAll('.upload_dropZone');
-            for (const zone of dropZones) {
-                eventHandlers(zone);
-            }
-
-
-            // No 'image/gif' or PDF or webp allowed here, but it's up to your use case.
-            // Double checks the input "accept" attribute
-            const isImageFile = file => 
-                ['image/jpeg', 'image/png', 'image/svg+xml'].includes(file.type);
-
-
-            function previewFiles(dataRefs) {
-                if (!dataRefs.gallery) return;
-                for (const file of dataRefs.files) {
+        // Show image preview
+        function previewFiles(dataRefs) {
+            if (!dataRefs.gallery) return;
+            for (const file of dataRefs.files) {
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onloadend = function() {
+                reader.onloadend = function () {
                     let img = document.createElement('img');
                     img.className = 'upload_img mt-2';
                     img.setAttribute('alt', file.name);
                     img.src = reader.result;
                     dataRefs.gallery.appendChild(img);
                 }
-                }
             }
+        }
 
-            // Based on: https://flaviocopes.com/how-to-upload-files-fetch/
-            const imageUpload = dataRefs => {
+        // Upload file to server (if needed)
+        const imageUpload = dataRefs => {
+            if (!dataRefs.files || !dataRefs.input) return;
+            const url = dataRefs.input.getAttribute('data-post-url');
+            const name = dataRefs.input.getAttribute('data-post-name');
+            if (!url || !name) return;
 
-                // Multiple source routes, so double check validity
-                if (!dataRefs.files || !dataRefs.input) return;
+            const formData = new FormData();
+            formData.append(name, dataRefs.files);
 
-                const url = dataRefs.input.getAttribute('data-post-url');
-                if (!url) return;
-
-                const name = dataRefs.input.getAttribute('data-post-name');
-                if (!name) return;
-
-                const formData = new FormData();
-                formData.append(name, dataRefs.files);
-
-                fetch(url, {
+            fetch(url, {
                 method: 'POST',
                 body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
+            })
+            .then(response => response.json())
+            .then(data => {
                 console.log('posted: ', data);
                 if (data.success === true) {
                     previewFiles(dataRefs);
-                } else {
-                    console.log('URL: ', url, '  name: ', name)
                 }
-                })
-                .catch(error => {
-                console.error('errored: ', error);
-                });
-            }
+            })
+            .catch(error => {
+                console.error('upload error: ', error);
+            });
+        }
 
+        // Process valid images
+        const handleFiles = dataRefs => {
+            let files = [...dataRefs.files];
+            files = files.filter(item => isImageFile(item));
+            if (!files.length) return;
+            dataRefs.files = files;
 
-            // Handle both selected and dropped files
-            const handleFiles = dataRefs => {
+            previewFiles(dataRefs);
+            imageUpload(dataRefs);
+        }
 
-                let files = [...dataRefs.files];
-
-                // Remove unaccepted file types
-                files = files.filter(item => {
-                if (!isImageFile(item)) {
-                    console.log('Not an image, ', item.type);
-                }
-                return isImageFile(item) ? item : null;
-                });
-
-                if (!files.length) return;
-                dataRefs.files = files;
-
-                previewFiles(dataRefs);
-                imageUpload(dataRefs);
-            }
-
-            })();
+    })();
     </script>
+    {{-- Drag & Drop File Upload Logic END --}}
 
+    {{-- Reactions, Reply, Tooltip Logic --}}
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Bootstrap tooltip init
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+
+        // Show/hide action buttons on hover
+        document.querySelectorAll('.chat-message.others-message').forEach(msg => {
+            msg.addEventListener('mouseenter', () => {
+                msg.querySelector('.action-buttons').classList.remove('d-none');
+            });
+            msg.addEventListener('mouseleave', () => {
+                msg.querySelector('.action-buttons').classList.add('d-none');
+                msg.querySelector('.reaction-options').classList.add('d-none'); // hide emoji reactions
+            });
+        });
+
+        // Toggle emoji reaction row when Like is clicked
+        document.querySelectorAll('.btn-show-reactions').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const parent = this.closest('.chat-message');
+                const reactions = parent.querySelector('.reaction-options');
+                reactions.classList.toggle('d-none');
+            });
+        });
+
+        // Show/hide reply box
+        document.querySelectorAll('.btn-reply').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const parent = this.closest('.chat-message');
+                const replyBox = parent.querySelector('.reply-box');
+                replyBox.classList.toggle('d-none');
+            });
+        });
+    });
+    </script>
+    {{-- Reactions, Reply, Tooltip Logic END --}}
+
+    {{-- Style Reaction Buttons --}}
+    <style>
+        .reaction-options button {
+            min-width: 75px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+        }
+    </style>
+    {{-- Style Reaction Buttons END --}}
+
+    {{-- Emoji Picker Integration --}}
+    <!-- Emoji Picker from CDN -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js">
+    </script>
+    <style>
+        emoji-picker {
+            position: absolute;
+            bottom: 60px;
+            right: 50px;
+            z-index: 999;
+            max-height: 300px;
+        }
+    </style>
+
+    <script>
+    // Toggle emoji picker visibility
+    document.getElementById('emoji-btn').addEventListener('click', () => {
+        const picker = document.getElementById('emoji-picker');
+        picker.classList.toggle('d-none');
+    });
+
+    // Insert emoji into message editor (div#message-input)
+    document.getElementById('emoji-picker').addEventListener('emoji-click', event => {
+        const emoji = event.detail.unicode;
+        const input = document.getElementById('message-input');
+        input.innerHTML += emoji;
+    });
+    </script>
+    {{-- Emoji Picker Integration End --}}
+
+    {{-- Tenor GIF Picker Logic --}}
+    <script>
+    const gifBtn = document.getElementById('gif-btn');
+    const gifModal = document.getElementById('gif-modal');
+    const gifResults = document.getElementById('gif-results');
+    const gifSearch = document.getElementById('gif-search');
+    const messageInput = document.getElementById('message-input');
+
+    // Toggle GIF modal
+    gifBtn.addEventListener('click', () => {
+        gifModal.classList.toggle('d-none');
+        loadGIFs(); // default: trending
+    });
+
+    // Search GIFs when typing
+    gifSearch.addEventListener('input', () => {
+        loadGIFs(gifSearch.value);
+    });
+
+    // Load Tenor GIFs
+    function loadGIFs(query = 'trending') {
+        const apiKey = 'AIzaSyDAvu_eEEFEgbhkB5pa_t_Pz02_U_b8voY';
+        const url = `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(query)}&key=${apiKey}&limit=12`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                gifResults.innerHTML = '';
+                if (!data.results.length) {
+                    gifResults.innerHTML = '<p>No GIFs found.</p>';
+                    return;
+                }
+
+                // Render each GIF
+                data.results.forEach(gif => {
+                    const img = document.createElement('img');
+                    img.src = gif.media_formats?.tinygif?.url || '';
+                    img.alt = gif.content_description || 'GIF';
+                    img.style.width = '100px';
+                    img.style.cursor = 'pointer';
+                    img.classList.add('mb-2', 'me-2');
+
+                    // On click, insert GIF <img> in contenteditable
+                    img.onclick = () => {
+                        messageInput.innerHTML += `<img src="${img.src}" class="img-fluid rounded my-2" style="max-width: 200px;">`;
+                        gifModal.classList.add('d-none');
+                    };
+
+                    gifResults.appendChild(img);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching GIFs:', error);
+                gifResults.innerHTML = '<p>Error loading GIFs.</p>';
+            });
+    }
+    </script>
+    {{-- Tenor GIF Picker Logic End --}}
 @endsection
