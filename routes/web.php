@@ -1,11 +1,14 @@
 <?php
 
 use App\Models\User;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Mail\TicketCreatedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\AdminController;
@@ -20,14 +23,24 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PublicHolidayController;
 use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use App\Models\Ticket;
-use Illuminate\Support\Carbon;
 
 
 // Root route
 Route::get('/', function () {
     return redirect()->route('admin.dashboard'); // Or login view
 })->middleware('auth');
+
+Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,designer'], 'prefix' => 'chat', 'as' => 'chat.'], function () {
+    Route::get('/get/{projectid}', [ChatController::class, 'getMessages'])->name('get');
+    Route::get('/load-more', [ChatController::class, 'loadMoreMessages'])->name('load-more');
+    Route::post('/send', [ChatController::class, 'send'])->name('send');
+    Route::post('/react', [ChatController::class, 'react'])->name('react');
+    Route::post('/reply', [ChatController::class, 'reply'])->name('reply');
+    Route::post('/seen', [ChatController::class, 'seen'])->name('seen');
+});
+
+// Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('chat.send');
+// Route::get('/get-messages', [ChatController::class, 'getMessages'])->name('chat.get');
 
 // Admin routes
 Route::group(['middleware' => ['auth:sales,admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -124,7 +137,7 @@ Route::group(['middleware' => ['auth:sales,admin,developer,projectmanager,design
     Route::post('/check-out', [AttendanceController::class, 'checkout'])->name('check-out');
 });
 
-Route::group(['middleware' => ['auth:sales,admin,designer'], 'prefix' => 'project', 'as' => 'project.'], function () {
+Route::group(['middleware' => ['auth:sales,admin,designer,projectmanager'], 'prefix' => 'project', 'as' => 'project.'], function () {
     Route::get('/', [ProjectController::class, 'index'])->name('list'); 
     Route::get('/create', [ProjectController::class, 'create'])->name('create'); 
     Route::post('/store', [ProjectController::class, 'store'])->name('store'); 

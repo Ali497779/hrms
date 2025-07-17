@@ -8,6 +8,7 @@ use App\Models\Employee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ProjectMember;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -132,8 +133,10 @@ class ProjectController extends Controller
     
     public function show($id)
     {
+        $hasMore = DB::table('chat_messages')->orderBy('id', 'desc')->offset(50)->limit(1)->exists()
+        || DB::table('chat_messages_archive')->exists();
         $project = Project::where('id', $id)->with('members.employee.user')->first();
-        return view('project.detail', compact('project'));
+        return view('project.detail', compact('project', 'hasMore'));
     }
 
     /**

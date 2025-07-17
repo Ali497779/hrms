@@ -30,6 +30,7 @@
                                 <div class="card stretch stretch-full">
                                     <div class="card-body task-header d-md-flex align-items-center justify-content-between">
                                         <div class="me-4">
+                                            <input type="hidden" name="project_id" class="project_id" value="{{ $project->id }}">
                                             <h4 class="mb-4 fw-bold d-flex">
                                                 <span class="text-truncate-1-line">{{ $project->title }} 
                                                     <?php
@@ -249,128 +250,48 @@
                                 <div class="card stretch stretch-full">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h3>Discussion</h3>
-                                        <button class="btn btn-sm btn-outline-primary">Previous Messages</button>
+                                        @if ($hasMore)
+                                            <button class="btn btn-primary" id="loadMoreMessages" data-offset="50">Load Previous Messages</button>
+                                        @endif
                                     </div>
                                     <div class="card-body">
                                         <!-- Chat Area -->
-                                        <div class="chat-box mb-3" style="max-height: 400px; overflow-y: auto;">
-                                            <!-- Message Left -->
-                                            <div class="d-flex mb-3 chat-message others-message">
-                                                <img class="avatar-image avatar-md rounded-circle me-2"
-                                                    src="https://ui-avatars.com/api/?background=ff6347&color=fff&name=Ali"
-                                                    alt="Ali" width="40">
-                                                <div>
-                                                    <div class="bg-light p-2 rounded-3">
-                                                        <div class="fw-bold">Ali <small class="text-muted ms-2">2:35 PM</small></div>
-                                                        <div>Hello @John! This is urgent. 😄</div>
-                                                        <div class="mt-1 small text-muted">
-                                                            <span class="seen-by" data-bs-toggle="tooltip" title="Seen by You, Sara">Seen by 2</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Like / Reply -->
-                                                    <div class="mt-1 d-flex gap-2">
-                                                        <button class="btn btn-sm btn-outline-secondary btn-show-reactions">Like</button>
-                                                        <button class="btn btn-sm btn-outline-secondary btn-reply">Reply</button>
-                                                    </div>
-
-                                                    <!-- Reaction Emojis (Row) -->
-                                                    <div class="reaction-options d-none mt-1 d-flex gap-2">
-                                                        <button class="btn btn-sm btn-light">👍 Like</button>
-                                                        <button class="btn btn-sm btn-light">❤️ Love</button>
-                                                        <button class="btn btn-sm btn-light">😂 Haha</button>
-                                                        <button class="btn btn-sm btn-light">😮 Wow</button>
-                                                        <button class="btn btn-sm btn-light">😢 Sad</button>
-                                                        <button class="btn btn-sm btn-light">😡 Angry</button>
-                                                    </div>
-
-                                                    <!-- Reply Box -->
-                                                    <div class="reply-box d-none mt-2">
-                                                        <textarea class="form-control" rows="2" placeholder="Write a reply..."></textarea>
-                                                        <button class="btn btn-sm btn-primary mt-1">Send Reply</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Emoji-only message (from other user) -->
-                                            <div class="d-flex mb-3 chat-message others-message">
-                                                <img class="avatar-image avatar-md rounded-circle me-2"
-                                                    src="https://ui-avatars.com/api/?background=fc8403&color=fff&name=John"
-                                                    alt="John" width="40">
-                                                <div>
-                                                    <div class="bg-light p-2 rounded-3">
-                                                        <div class="fw-bold">John <small class="text-muted ms-2">2:15 PM</small></div>
-                                                        <div>😎🔥🎉💯</div>
-                                                        <div class="mt-1 small text-muted">
-                                                            <span data-bs-toggle="tooltip" title="Seen by You, Sara">Seen by 2</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mt-1 d-flex gap-2">
-                                                        <button class="btn btn-sm btn-outline-secondary btn-show-reactions">Like</button>
-                                                        <button class="btn btn-sm btn-outline-secondary btn-reply">Reply</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- GIF Message (from other user) -->
-                                            <div class="d-flex mb-3 chat-message others-message">
-                                                <img class="avatar-image avatar-md rounded-circle me-2"
-                                                    src="https://ui-avatars.com/api/?background=dc3545&color=fff&name=Sara"
-                                                    alt="Sara" width="40">
-                                                <div>
-                                                    <div class="bg-light p-2 rounded-3">
-                                                        <div class="fw-bold">Sara <small class="text-muted ms-2">2:18 PM</small></div>
-                                                        <div>
-                                                            <img src="https://media.tenor.com/GlN7D6vdm9gAAAAC/cat-love.gif" class="img-fluid rounded my-2" style="max-width: 200px;" alt="GIF">
-                                                        </div>
-                                                        <div class="mt-1 small text-muted">
-                                                            <span data-bs-toggle="tooltip" title="Seen by You, John">Seen by 2</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mt-1 d-flex gap-2">
-                                                        <button class="btn btn-sm btn-outline-secondary btn-show-reactions">Like</button>
-                                                        <button class="btn btn-sm btn-outline-secondary btn-reply">Reply</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <!-- Your Message -->
-                                            <div class="d-flex mb-3 justify-content-end chat-message your-message">
-                                                <div>
-                                                    <div class="bg-primary text-white p-2 rounded-3">
-                                                        <div class="fw-bold">You <small class="text-light ms-2">2:36 PM</small></div>
-                                                        <div>Okay noted! 😎</div>
-                                                        <div class="mt-1 small text-light">
-                                                            <span class="seen-by" data-bs-toggle="tooltip" title="Seen by Ali, Sara">Seen by 2</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <img class="avatar-image avatar-md rounded-circle ms-2" src="https://ui-avatars.com/api/?background=888&color=fff&name=You" alt="You" width="40">
-                                            </div>
-
+                                        @if ($hasMore)
+                                            <button id="loadMoreMessages" data-offset="50">Load Previous Messages</button>
+                                        @endif
+                                        <div class="chat-box mb-3" id="chat-box" style="max-height: 400px; overflow-y: auto;">
+                                            <!-- Chat messages will be injected here -->
                                         </div>
 
                                         <!-- Input Box -->
-                                        <div class="d-flex align-items-center gap-2">
+                                        <!-- Chat Input Area -->
+                                        <div class="d-flex align-items-center gap-2 mt-3">
                                             <div id="message-input" class="form-control" contenteditable="true" style="min-height: 80px;"></div>
-                                            <button class="btn btn-primary">Send</button>
-                                           <!-- GIF Button -->
+                                            <button class="btn btn-primary" id="send-message">Send</button>
+
+                                            <!-- GIF Button -->
                                             <button class="btn btn-outline-secondary" id="gif-btn">GIF</button>
 
-                                            <!-- GIF Picker Modal -->
+                                            <!-- GIF Modal -->
                                             <div id="gif-modal" class="d-none border p-2 bg-light position-absolute" style="bottom: 60px; right: 120px; width: 300px; z-index: 999;">
                                                 <input type="text" id="gif-search" class="form-control mb-2" placeholder="Search GIFs">
                                                 <div id="gif-results" style="max-height: 200px; overflow-y: auto;"></div>
                                             </div>
+
+                                            <!-- Emoji Button -->
                                             <button id="emoji-btn" type="button" class="btn btn-outline-secondary">😊</button>
-                                            <div class="position-relative">                                            
-                                            <emoji-picker id="emoji-picker" class="d-none"></emoji-picker>
+                                            <div class="position-relative">
+                                                <emoji-picker id="emoji-picker" class="d-none"></emoji-picker>
                                             </div>
+
+                                            <!-- File Upload -->
                                             <input type="file" id="chat-file" class="d-none">
                                             <label for="chat-file" class="btn btn-outline-secondary mb-0">📎</label>
+                                        </div>
+
+                                        <!-- File Name Preview -->
+                                        <div class="mt-2">
+                                            <span id="selected-file-name" class="text-muted small"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -510,57 +431,198 @@
     </script>
     {{-- Drag & Drop File Upload Logic END --}}
 
-    {{-- Reactions, Reply, Tooltip Logic --}}
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Bootstrap tooltip init
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById('chat-file');
+            const fileNamePreview = document.getElementById('selected-file-name');
 
-        // Show/hide action buttons on hover
-        document.querySelectorAll('.chat-message.others-message').forEach(msg => {
-            msg.addEventListener('mouseenter', () => {
-                msg.querySelector('.action-buttons').classList.remove('d-none');
-            });
-            msg.addEventListener('mouseleave', () => {
-                msg.querySelector('.action-buttons').classList.add('d-none');
-                msg.querySelector('.reaction-options').classList.add('d-none'); // hide emoji reactions
+            fileInput.addEventListener('change', function () {
+                if (fileInput.files.length > 0) {
+                    fileNamePreview.textContent = `Selected file: ${fileInput.files[0].name}`;
+                } else {
+                    fileNamePreview.textContent = ''; // Clear if no file
+                }
             });
         });
-
-        // Toggle emoji reaction row when Like is clicked
-        document.querySelectorAll('.btn-show-reactions').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const parent = this.closest('.chat-message');
-                const reactions = parent.querySelector('.reaction-options');
-                reactions.classList.toggle('d-none');
-            });
-        });
-
-        // Show/hide reply box
-        document.querySelectorAll('.btn-reply').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const parent = this.closest('.chat-message');
-                const replyBox = parent.querySelector('.reply-box');
-                replyBox.classList.toggle('d-none');
-            });
-        });
-    });
     </script>
-    {{-- Reactions, Reply, Tooltip Logic END --}}
 
-    {{-- Style Reaction Buttons --}}
-    <style>
-        .reaction-options button {
-            min-width: 75px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 8px;
+    {{-- Chatt Load --}}
+    <script>
+        setTimeout(() => {
+            const chatBox = document.getElementById('chat-box');
+            if (!chatBox) {
+                console.error('❌ chatBox not found after 300ms.');
+                return;
+            }
+            loadMessages();
+            setInterval(loadMessages, 5000);
+        }, 300);
+    </script>
+
+    <script>
+        let lastMessageId = 0;
+
+        document.getElementById('message-input').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Prevents new line
+                document.getElementById('send-message').click(); // Trigger send
+            }
+        });
+
+        function renderMessage(msg) {
+            const isMe = msg.user_id == {{ auth()->id() }};
+            const name = msg.user?.name || `User ${msg.user_id}`;
+            const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
+            const time = new Date(msg.created_at).toLocaleTimeString();
+
+            const gif = msg.gif_url ? `<img src="${msg.gif_url}" class="img-fluid rounded my-2" style="max-width: 200px;">` : '';
+            const text = msg.message ? `<div class="mb-1">${msg.message}</div>` : '';
+
+            let attachmentHtml = '';
+
+            if (msg.attachment) {
+                const path = `/${msg.attachment.file_path}`;
+                const name = msg.attachment.original_name;
+                const ext = name.split('.').pop().toLowerCase();
+
+                const imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                const videoExts = ['mp4', 'webm', 'mov'];
+                const audioExts = ['mp3', 'wav', 'ogg'];
+
+                const fileIcons = {
+                    pdf: 'pdf', php: 'php', pub: 'publisher',
+                    doc: 'word', docx: 'word', xls: 'excel',
+                    xlsx: 'excel', sql: 'sql', zip: 'zip',
+                    rar: 'zip', psd: 'psd', ai: 'ai',
+                    indd: 'indesign', mp3: 'music', wav: 'music',
+                    ogg: 'music', mp4: 'video', webm: 'video',
+                    mov: 'video', txt: 'text', csv: 'excel',
+                    json: 'json', default: 'file'
+                };
+
+                const iconKey = fileIcons[ext] || fileIcons.default;
+                const iconUrl = `https://s2.svgbox.net/files.svg?ic=${iconKey}`;
+
+                if (imageExts.includes(ext)) {
+                    attachmentHtml = `<div class="mt-2"><a href="${path}" target="_blank"><img src="${path}" class="img-fluid rounded shadow" style="max-height: 200px;"></a><div class="small mt-1 text-truncate">${name}</div></div>`;
+                } else if (audioExts.includes(ext)) {
+                    attachmentHtml = `<div class="mt-2"><audio controls class="w-100"><source src="${path}" type="audio/${ext}">Your browser does not support audio.</audio><div class="small mt-1 text-truncate">${name}</div></div>`;
+                } else if (videoExts.includes(ext)) {
+                    attachmentHtml = `<div class="mt-2"><video controls class="w-100" style="max-height: 200px;"><source src="${path}" type="video/${ext}">Your browser does not support video.</video><div class="small mt-1 text-truncate">${name}</div></div>`;
+                } else {
+                    attachmentHtml = `<div class="mt-2"><a href="${path}" target="_blank" class="text-decoration-none d-flex align-items-center gap-2"><img src="${iconUrl}" alt="${ext}" style="height: 40px;"> <span class="text-truncate small" style="max-width: 200px;">${name}</span></a></div>`;
+                }
+            }
+
+            return `
+                <div class="d-flex mb-3 chat-message ${isMe ? 'justify-content-end your-message' : 'others-message'}" data-message-id="${msg.id}">
+                    ${!isMe ? `<img class="avatar-image avatar-md rounded-circle me-2" src="${avatar}" width="40">` : ''}
+                    <div>
+                        <div class="${isMe ? 'bg-primary text-white' : 'bg-light'} p-2 rounded-3">
+                            <div class="fw-bold">${isMe ? 'You' : name}
+                                <small class="${isMe ? 'text-light' : 'text-muted'} ms-2">${time}</small>
+                            </div>
+                            ${text + gif + attachmentHtml}
+                        </div>
+                    </div>
+                    ${isMe ? `<img class="avatar-image avatar-md rounded-circle ms-2" src="${avatar}" width="40">` : ''}
+                </div>
+            `;
         }
-    </style>
-    {{-- Style Reaction Buttons END --}}
+
+
+        document.getElementById('send-message').addEventListener('click', () => {
+            const messageInput = document.getElementById('message-input');
+            const fileInput = document.getElementById('chat-file');
+            const message = messageInput.innerHTML.trim();
+            const gif = message.includes('<img') ? $(message).find('img').attr('src') : null;
+            const text = gif ? message.replace(/<img.*?>/g, '').trim() : message;
+            const projectid = $('.project_id').val();
+
+            const formData = new FormData();
+            formData.append('message', text);
+            formData.append('project_id', projectid);
+            if (gif) formData.append('gif_url', gif);
+            if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            }
+
+            fetch("{{ route('chat.send') }}", {
+                method: "POST",
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                body: formData
+            }).then(res => res.json())
+            .then(data => {
+                messageInput.innerHTML = '';
+                fileInput.value = '';
+                loadMessages(); // refresh chat
+            });
+        });
+
+        function loadMessages() {
+            const baseUrl = "{{ route('chat.get', ['projectid' => 'PROJECT_ID']) }}";
+            const projectid = $('.project_id').val();
+            const finalUrl = baseUrl.replace('PROJECT_ID', projectid);
+
+            fetch(finalUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const chatBox = document.getElementById('chat-box');
+                    if (!chatBox) return;
+
+                    const messages = data.messages;
+                    const newMessages = messages.filter(msg => msg.id > lastMessageId);
+
+                    newMessages.forEach(msg => {
+                        chatBox.innerHTML += renderMessage(msg);
+                        lastMessageId = msg.id;
+                    });
+
+                    if (newMessages.length) {
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                });
+        }
+
+    </script>
+    {{-- Chatt Load End--}}
+
+    {{-- LOAD MORE CHATT --}}
+    <script>
+        document.getElementById('loadMoreMessages').addEventListener('click', function () {
+            const button = this;
+            const offset = parseInt(button.getAttribute('data-offset'));
+
+            fetch(`/chat/load-more?offset=${offset}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.messages.length > 0) {
+                        const chatBox = document.getElementById('chat-box');
+                        data.messages.forEach(msg => {
+                            // Optional: avoid adding if already exists
+                            if (!document.getElementById(`msg-${msg.id}`)) {
+                                const msgDiv = document.createElement('div');
+                                msgDiv.id = `msg-${msg.id}`;
+                                msgDiv.textContent = msg.message;
+                                chatBox.prepend(msgDiv);
+                            }
+                        });
+
+                        // ✅ Only increase offset if we actually added new messages
+                        button.setAttribute('data-offset', data.nextOffset);
+                    } else {
+                        // ❌ No new unique messages — hide button
+                        button.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading more messages:', error);
+                    alert("Something went wrong. Please try again.");
+                });
+        });
+    </script>
+    {{-- LOAD MORE CHATT END--}}
+
 
     {{-- Emoji Picker Integration --}}
     <!-- Emoji Picker from CDN -->
